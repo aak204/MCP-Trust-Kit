@@ -1,6 +1,10 @@
 name: MCP Trust Kit
 description: Scan a local stdio MCP server, calculate a deterministic surface-risk score, and emit JSON and SARIF reports.
 
+branding:
+  icon: 'shield'
+  color: 'green'
+  
 inputs:
   cmd:
     description: Shell-style command used to start the MCP server over stdio.
