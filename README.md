@@ -382,13 +382,13 @@ but opaque system.
 
 ## Validated On Real MCP Servers
 
-Validation date: `2026-03-29`
+Validation date: `2026-04-09`
 
 | Server | Source | Result | Notes |
 | --- | --- | --- | --- |
 | `examples/insecure-server` | local demo | `10/100` | intentionally low-scoring deterministic fixture |
-| `@modelcontextprotocol/server-memory@2026.1.26` | official public package | `100/100` | no findings under current deterministic rules |
-| `@modelcontextprotocol/server-filesystem@2026.1.14` | official public package | `40/100` | legitimate filesystem mutation surface is surfaced for review |
+| `@modelcontextprotocol/server-memory@2026.1.26` | official public package | `100/100` | revalidated with `MCP Scorecard 1.0.0`; no findings under current deterministic rules |
+| `@modelcontextprotocol/server-filesystem@2026.1.14` | official public package | `40/100` | revalidated with `MCP Scorecard 1.0.0`; legitimate filesystem mutation surface is surfaced for review |
 
 Commands, caveats, and findings:
 

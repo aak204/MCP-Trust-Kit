@@ -7,7 +7,9 @@ The point is narrower: show that `MCP Scorecard` works on real servers outside t
 
 **MCP Scorecard is a deterministic quality scorecard, not a safety verdict.**
 
-Validation date: `2026-03-31`
+Validation date: `2026-04-09`
+
+Validation tool version: `MCP Scorecard 1.0.0`
 
 Reference sources for the public packages used here:
 
@@ -77,6 +79,7 @@ Windows:
 Observed result:
 
 - server name: `memory-server`
+- server version: `0.6.3`
 - score: `100/100`
 - finding count: `0`
 
@@ -114,6 +117,7 @@ New-Item -ItemType Directory -Force $tmp | Out-Null
 Observed result:
 
 - server name: `secure-filesystem-server`
+- server version: `0.2.0`
 - score: `40/100`
 - finding count: `3`
 - rule hits:
