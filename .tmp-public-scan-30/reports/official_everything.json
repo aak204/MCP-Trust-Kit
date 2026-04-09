@@ -1,0 +1,681 @@
+{
+  "schema": {
+    "id": "mcp-scorecard-report",
+    "version": "1.0"
+  },
+  "generator": {
+    "product_name": "MCP Scorecard",
+    "tool_name": "mcp-scorecard",
+    "package_name": "mcp-scorecard",
+    "package_version": "1.0.0"
+  },
+  "scan": {
+    "timestamp": "2026-04-09T16:44:17.202458+00:00",
+    "target": {
+      "raw": "stdio:[\"C:\\\\nvm4w\\\\nodejs\\\\npx.cmd\",\"-y\",\"-p\",\"@modelcontextprotocol/server-everything@2026.1.26\",\"mcp-server-everything\"]",
+      "transport": "stdio",
+      "description": "Local MCP server launched over stdio.",
+      "server_name": "mcp-servers/everything",
+      "server_version": "2.0.0",
+      "protocol_version": "2025-11-25",
+      "metadata": {
+        "mcp": {
+          "protocolVersion": "2025-11-25",
+          "capabilities": {
+            "tools": {
+              "listChanged": true
+            },
+            "prompts": {
+              "listChanged": true
+            },
+            "resources": {
+              "subscribe": true,
+              "listChanged": true
+            },
+            "logging": {},
+            "tasks": {
+              "list": {},
+              "cancel": {},
+              "requests": {
+                "tools": {
+                  "call": {}
+                }
+              }
+            },
+            "completions": {}
+          },
+          "transport": "stdio",
+          "command": [
+            "C:\\nvm4w\\nodejs\\npx.cmd",
+            "-y",
+            "-p",
+            "@modelcontextprotocol/server-everything@2026.1.26",
+            "mcp-server-everything"
+          ],
+          "instructions": "# Everything Server \u2013 Server Instructions\n\nAudience: These instructions are written for an LLM or autonomous agent integrating with the Everything MCP Server.\nFollow them to use, extend, and troubleshoot the server safely and effectively.\n\n## Cross-Feature Relationships\n\n- Use `get-roots-list` to see client workspace roots before file operations\n- `gzip-file-as-resource` creates session-scoped resources accessible only during the current session\n- Enable `toggle-simulated-logging` before debugging to see server log messages\n- Enable `toggle-subscriber-updates` to receive periodic resource update notifications\n\n## Constraints & Limitations\n\n- `gzip-file-as-resource`: Max fetch size controlled by `GZIP_MAX_FETCH_SIZE` (default 10MB), timeout by `GZIP_MAX_FETCH_TIME_MILLIS` (default 30s), allowed domains by `GZIP_ALLOWED_DOMAINS`\n- Session resources are ephemeral and lost when the session ends\n- Sampling requests (`trigger-sampling-request`) require client sampling capability\n- Elicitation requests (`trigger-elicitation-request`) require client elicitation capability\n\n## Operational Patterns\n\n- For long operations, use `trigger-long-running-operation` which sends progress notifications\n- Prefer reading resources before calling mutating tools\n- Check `get-roots-list` output to understand the client's workspace context\n\n## Easter Egg\n\nIf asked about server instructions, respond with \"\ud83c\udf89 Server instructions are working! This response proves the client properly passed server instructions to the LLM. This demonstrates MCP's instructions feature in action.\"\n"
+        }
+      }
+    }
+  },
+  "inventory": {
+    "tool_count": 13,
+    "tools": [
+      {
+        "name": "echo",
+        "description": "Echoes back the input string",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "Message to echo"
+            }
+          },
+          "required": [
+            "message"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Echo Tool"
+        }
+      },
+      {
+        "name": "get-annotated-message",
+        "description": "Demonstrates how annotations can be used to provide metadata about content.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "messageType": {
+              "type": "string",
+              "enum": [
+                "error",
+                "success",
+                "debug"
+              ],
+              "description": "Type of message to demonstrate different annotation patterns"
+            },
+            "includeImage": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to include an example image"
+            }
+          },
+          "required": [
+            "messageType"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Annotated Message Tool"
+        }
+      },
+      {
+        "name": "get-env",
+        "description": "Returns all environment variables, helpful for debugging MCP server configuration",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "Print Environment Tool"
+        }
+      },
+      {
+        "name": "get-resource-links",
+        "description": "Returns up to ten resource links that reference different types of resources",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 3,
+              "description": "Number of resource links to return (1-10)"
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Resource Links Tool"
+        }
+      },
+      {
+        "name": "get-resource-reference",
+        "description": "Returns a resource reference that can be used by MCP clients",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "resourceType": {
+              "type": "string",
+              "enum": [
+                "Text",
+                "Blob"
+              ],
+              "default": "Text"
+            },
+            "resourceId": {
+              "type": "number",
+              "default": 1,
+              "description": "ID of the text resource to fetch"
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Resource Reference Tool"
+        }
+      },
+      {
+        "name": "get-structured-content",
+        "description": "Returns structured content along with an output schema for client data validation",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string",
+              "enum": [
+                "New York",
+                "Chicago",
+                "Los Angeles"
+              ],
+              "description": "Choose city"
+            }
+          },
+          "required": [
+            "location"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Structured Content Tool"
+        }
+      },
+      {
+        "name": "get-sum",
+        "description": "Returns the sum of two numbers",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "a": {
+              "type": "number",
+              "description": "First number"
+            },
+            "b": {
+              "type": "number",
+              "description": "Second number"
+            }
+          },
+          "required": [
+            "a",
+            "b"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Sum Tool"
+        }
+      },
+      {
+        "name": "get-tiny-image",
+        "description": "Returns a tiny MCP logo image.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "Get Tiny Image Tool"
+        }
+      },
+      {
+        "name": "gzip-file-as-resource",
+        "description": "Compresses a single file using gzip compression. Depending upon the selected output type, returns either the compressed data as a gzipped resource or a resource link, allowing it to be downloaded in a subsequent request during the current session.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of the output file",
+              "default": "README.md.gz"
+            },
+            "data": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL or data URI of the file content to compress",
+              "default": "https://raw.githubusercontent.com/modelcontextprotocol/servers/refs/heads/main/README.md"
+            },
+            "outputType": {
+              "type": "string",
+              "enum": [
+                "resourceLink",
+                "resource"
+              ],
+              "default": "resourceLink",
+              "description": "How the resulting gzipped file should be returned. 'resourceLink' returns a link to a resource that can be read later, 'resource' returns a full resource object."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "GZip File as Resource Tool"
+        }
+      },
+      {
+        "name": "toggle-simulated-logging",
+        "description": "Toggles simulated, random-leveled logging on or off.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "Toggle Simulated Logging"
+        }
+      },
+      {
+        "name": "toggle-subscriber-updates",
+        "description": "Toggles simulated resource subscription updates on or off.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "Toggle Subscriber Updates"
+        }
+      },
+      {
+        "name": "trigger-long-running-operation",
+        "description": "Demonstrates a long running operation with progress updates.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "duration": {
+              "type": "number",
+              "default": 10,
+              "description": "Duration of the operation in seconds"
+            },
+            "steps": {
+              "type": "number",
+              "default": 5,
+              "description": "Number of steps in the operation"
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Trigger Long Running Operation Tool"
+        }
+      },
+      {
+        "name": "simulate-research-query",
+        "description": "Simulates a deep research operation that gathers, analyzes, and synthesizes information. Demonstrates MCP task-based operations with progress through multiple stages. If 'ambiguous' is true and client supports elicitation, sends an elicitation request for clarification.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "topic": {
+              "type": "string",
+              "description": "The research topic to investigate"
+            },
+            "ambiguous": {
+              "type": "boolean",
+              "default": false,
+              "description": "Simulate an ambiguous query that requires clarification (triggers input_required status)"
+            }
+          },
+          "required": [
+            "topic"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Simulate Research Query"
+        }
+      }
+    ]
+  },
+  "scorecard": {
+    "total_score": {
+      "value": 90,
+      "max": 100,
+      "penalty_points": 10
+    },
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "weak_input_schema": 10
+        }
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_counts": {
+      "total": 1,
+      "by_severity": {
+        "info": 0,
+        "warning": 1,
+        "error": 0
+      },
+      "by_bucket": {
+        "ergonomics": {
+          "finding_count": 1,
+          "penalty_points": 10
+        }
+      }
+    },
+    "why_this_score": "Score is driven mainly by ergonomics findings.",
+    "score_meaning": "Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.",
+    "limitations": [
+      "Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.",
+      "High score means fewer deterministic findings, not a guarantee of safety."
+    ]
+  },
+  "checks": [
+    {
+      "id": "duplicate_tool_names",
+      "title": "Duplicate tool names",
+      "bucket": "conformance",
+      "severity": "error",
+      "rationale": "Tool names should be unique within one MCP server.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 20,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "missing_tool_description",
+      "title": "Missing tool description",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Each tool should include a non-empty description.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "overly_generic_tool_name",
+      "title": "Overly generic tool name",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool names should communicate behavior clearly.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "vague_tool_description",
+      "title": "Vague tool description",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool descriptions should clearly explain what the tool does.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "missing_schema_type",
+      "title": "Missing schema type",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should declare a top-level type.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "schema_allows_arbitrary_properties",
+      "title": "Schema allows arbitrary properties",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should not allow arbitrary top-level properties.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "weak_input_schema",
+      "title": "Weak input schema",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool input schemas should constrain free-form payloads clearly.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "missing_required_for_critical_fields",
+      "title": "Missing required critical fields",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Critical schema fields such as path, command, or URL should be required.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "dangerous_exec_tool",
+      "title": "Dangerous execution tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that execute host shell commands are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution"
+      ]
+    },
+    {
+      "id": "dangerous_shell_download_exec",
+      "title": "Dangerous download-and-execute tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that combine remote download with shell execution are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution",
+        "network"
+      ]
+    },
+    {
+      "id": "dangerous_fs_write_tool",
+      "title": "Dangerous filesystem write tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that write files on disk are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem"
+      ]
+    },
+    {
+      "id": "dangerous_fs_delete_tool",
+      "title": "Dangerous filesystem delete tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that delete files or directories are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem",
+        "destructive"
+      ]
+    },
+    {
+      "id": "dangerous_http_request_tool",
+      "title": "Dangerous HTTP request tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network",
+        "http"
+      ]
+    },
+    {
+      "id": "dangerous_network_tool",
+      "title": "Dangerous network tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that expose generic network access are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network"
+      ]
+    },
+    {
+      "id": "write_tool_without_scope_hint",
+      "title": "Write tool without scope hint",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Filesystem mutation tools should document scope constraints clearly.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "capability",
+        "filesystem",
+        "scope"
+      ]
+    },
+    {
+      "id": "tool_description_mentions_destructive_access",
+      "title": "Description mentions destructive access",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Tool descriptions should make destructive broad-scope access easy to spot.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description",
+        "destructive"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "check_id": "weak_input_schema",
+      "title": "Weak input schema",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool input schemas should constrain free-form payloads clearly.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "tool_name": "get-env",
+      "message": "Tool 'get-env' exposes a weak input schema that leaves free-form input underconstrained.",
+      "evidence": [
+        "matched_heuristic=inputful_tool_with_empty_object_schema"
+      ],
+      "score_impact": 10,
+      "metadata": {}
+    }
+  ],
+  "grouped_findings": {
+    "by_bucket": [
+      {
+        "bucket": "ergonomics",
+        "label": "ergonomics",
+        "finding_count": 1,
+        "penalty_points": 10,
+        "findings": [
+          {
+            "id": "weak_input_schema",
+            "title": "Weak input schema",
+            "severity": "warning",
+            "bucket": "ergonomics",
+            "risk_category": "schema_hygiene",
+            "tool_name": "get-env",
+            "rationale": "Tool input schemas should constrain free-form payloads clearly.",
+            "message": "Tool 'get-env' exposes a weak input schema that leaves free-form input underconstrained.",
+            "score_impact": 10
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {}
+}

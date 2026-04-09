@@ -32,7 +32,7 @@ def test_readme_documents_github_actions_quickstart() -> None:
     readme_text = (ROOT / "README.md").read_text(encoding="utf-8")
 
     assert "## GitHub Actions Quickstart" in readme_text
-    assert "uses: aak204/MCP-Trust-Kit@v1.0.0" in readme_text
+    assert "uses: aak204/MCP-Scorecard@v1.0.0" in readme_text
     assert "cmd: python path/to/your/server.py" in readme_text
     assert "github/codeql-action/upload-sarif@v3" in readme_text
     assert "mcp-scorecard-report.sarif" in readme_text

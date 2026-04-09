@@ -1,8 +1,8 @@
 # MCP Scorecard
 
-[![Build Status](https://github.com/aak204/MCP-Trust-Kit/actions/workflows/ci.yml/badge.svg)](https://github.com/aak204/MCP-Trust-Kit/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/aak204/MCP-Trust-Kit?sort=semver)](https://github.com/aak204/MCP-Trust-Kit/releases)
-[![License](https://img.shields.io/github/license/aak204/MCP-Trust-Kit?v=1)](LICENSE)
+[![Build Status](https://github.com/aak204/MCP-Scorecard/actions/workflows/ci.yml/badge.svg)](https://github.com/aak204/MCP-Scorecard/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/aak204/MCP-Scorecard?sort=semver)](https://github.com/aak204/MCP-Scorecard/releases)
+[![License](https://img.shields.io/github/license/aak204/MCP-Scorecard?v=1)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org/downloads/)
 
 ![MCP Scorecard terminal run showing Total Score 40/100 and dangerous filesystem write findings](docs/assets/filesystem-scan-hero.svg)
@@ -24,6 +24,13 @@ and SARIF for code-scanning systems.
 This project is intentionally not an AI wrapper. It does not depend on LLM scoring, hidden
 judgment, or hosted analysis. The goal is a repeatable, auditable baseline that engineering teams
 can gate on in pull requests and release pipelines.
+
+Quick value:
+
+- run locally against a real MCP server
+- fail CI below a deterministic threshold
+- export JSON and SARIF for automation
+- review risky MCP surfaces deterministically
 
 ## What This Is
 
@@ -63,6 +70,9 @@ In practice, teams often evaluate MCP servers ad hoc:
 ## What It Checks
 
 The current score model uses four explicit buckets.
+
+Conformance here means deterministic interface-level conformance and schema reviewability checks,
+not full protocol certification.
 
 ### Conformance
 
@@ -189,7 +199,7 @@ jobs:
 
       - name: Run MCP Scorecard
         id: scorecard
-        uses: aak204/MCP-Trust-Kit@v1.0.0
+        uses: aak204/MCP-Scorecard@v1.0.0
         with:
           cmd: python path/to/your/server.py
           min-score: "80"
@@ -230,8 +240,10 @@ Outputs:
 Each run also writes a PR-friendly Markdown summary to the GitHub Actions step summary. If
 `markdown-out` is set, the same summary is written to a file inside the workspace.
 
-The current action reference stays `aak204/MCP-Trust-Kit@v1.0.0` while the repository name remains
-unchanged for compatibility.
+Migration note:
+
+- prefer `aak204/MCP-Scorecard@v1.0.0` in new workflows
+- legacy references to `aak204/MCP-Trust-Kit` may still exist in older docs or links
 
 ## Example Output
 

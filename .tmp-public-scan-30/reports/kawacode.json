@@ -1,0 +1,960 @@
+{
+  "schema": {
+    "id": "mcp-scorecard-report",
+    "version": "1.0"
+  },
+  "generator": {
+    "product_name": "MCP Scorecard",
+    "tool_name": "mcp-scorecard",
+    "package_name": "mcp-scorecard",
+    "package_version": "1.0.0"
+  },
+  "scan": {
+    "timestamp": "2026-04-09T16:44:39.683549+00:00",
+    "target": {
+      "raw": "stdio:[\"C:\\\\nvm4w\\\\nodejs\\\\npx.cmd\",\"-y\",\"-p\",\"@kawacode/mcp@5.0.4\",\"kawacode-mcp\"]",
+      "transport": "stdio",
+      "description": "Local MCP server launched over stdio.",
+      "server_name": "kawa-intents",
+      "server_version": "0.3.0",
+      "protocol_version": "2025-11-25",
+      "metadata": {
+        "mcp": {
+          "protocolVersion": "2025-11-25",
+          "capabilities": {
+            "tools": {},
+            "prompts": {},
+            "resources": {}
+          },
+          "transport": "stdio",
+          "command": [
+            "C:\\nvm4w\\nodejs\\npx.cmd",
+            "-y",
+            "-p",
+            "@kawacode/mcp@5.0.4",
+            "kawacode-mcp"
+          ]
+        }
+      }
+    }
+  },
+  "inventory": {
+    "tool_count": 17,
+    "tools": [
+      {
+        "name": "get_relevant_context",
+        "description": "Find context relevant to a specific user request.\n\nUse this when you need context that's specifically relevant to the current task,\nrather than all recent context. This is more token-efficient for large projects.\n\n**IMPORTANT: Call this AFTER initial exploration of the request**, not immediately.\nOnce you know which files are involved, pass them in `activeFiles` for much better\nrelevance matching. A vague prompt alone yields poor results.\n\nThe tool:\n1. Sends your prompt to the API for semantic embedding\n2. Computes cosine similarity against stored embeddings for all intents and decisions\n3. Uses `activeFiles` to boost items with matching file paths\n4. Returns only the most relevant items above the minimum score threshold\n\n**Recommended workflow:**\n1. `check_active_intent` at SESSION START (resume existing work)\n2. Explore the user's request (read files, understand scope)\n3. `get_relevant_context` with prompt + activeFiles (task-specific context)\n\nReturns:\n- **relevantIntents**: Past work related to the current task\n- **relevantDecisions**: Decisions affecting similar code/concepts (both intent-scoped and repo-scoped)\n\nExample: User asks \"Add validation to user registration endpoint\"\nAfter exploring, you found src/routes/user.ts and src/validators/\nCall with: prompt + activeFiles: [\"src/routes/user.ts\", \"src/validators/user.ts\"]\nReturns intents/decisions matching these files and keywords",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "prompt": {
+              "type": "string",
+              "description": "The user request to find relevant context for"
+            },
+            "activeFiles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Files currently being discussed or recently opened"
+            },
+            "maxIntents": {
+              "type": "number",
+              "description": "Maximum number of intents to return"
+            },
+            "maxDecisions": {
+              "type": "number",
+              "description": "Maximum number of decisions to return"
+            },
+            "minRelevance": {
+              "type": "number",
+              "description": "Minimum relevance score (0-1)"
+            }
+          },
+          "required": [
+            "repoPath",
+            "prompt"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "check_active_intent",
+        "description": "REQUIRED: Call this tool BEFORE writing any code.\n\nReturns the currently active intent if one exists. If no active intent is set,\nyou should ask the user to confirm intent details and then call create_and_activate_intent.\n\nAn active intent tracks what the user is working on, enabling:\n- Better code context for AI-generated changes\n- Conflict detection with team members\n- Automatic assignment of code blocks to the intent",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            }
+          },
+          "required": [
+            "repoPath"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "create_and_activate_intent",
+        "description": "Create a new intent from the user's request and mark it as active.\n\nCall this when check_active_intent returns no active intent. Before calling:\n1. Summarize what the user is asking for\n2. Ask the user to confirm the intent details (title, description, type)\n3. Then call this tool with the confirmed details\n\nThis ensures all AI-generated code gets properly tracked and attributed.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "title": {
+              "type": "string",
+              "description": "Short, descriptive title for the intent"
+            },
+            "description": {
+              "type": "string",
+              "description": "What this intent accomplishes"
+            },
+            "templateType": {
+              "type": "string",
+              "enum": [
+                "feature",
+                "refactor",
+                "exploration"
+              ],
+              "description": "Type of work"
+            },
+            "constraints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Requirements or constraints for this work"
+            }
+          },
+          "required": [
+            "repoPath",
+            "title",
+            "description"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "get_intents_for_file",
+        "description": "Get all intents that have code blocks in this file.\n\nUse this before modifying a file to:\n- See what work is already in progress\n- Identify potential conflicts with team members\n- Understand the context of existing code changes\n\nReturns intent details including author, status, and specific line ranges.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "filePath": {
+              "type": "string",
+              "description": "Path to the file (relative to repo root)"
+            }
+          },
+          "required": [
+            "repoPath",
+            "filePath"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "get_intents_for_lines",
+        "description": "Get intents covering a specific line range.\n\nUse this before modifying specific lines to check for conflicts:\n- Warns if the lines overlap with another team member's active intent\n- Shows the exact overlap range\n- Helps avoid merge conflicts and duplicate work\n\nReturns overlap details so you can work around or coordinate with team members.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "filePath": {
+              "type": "string",
+              "description": "Path to the file (relative to repo root)"
+            },
+            "startLine": {
+              "type": "number",
+              "description": "Start line number (1-based)"
+            },
+            "endLine": {
+              "type": "number",
+              "description": "End line number (1-based, inclusive)"
+            }
+          },
+          "required": [
+            "repoPath",
+            "filePath",
+            "startLine",
+            "endLine"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "assign_blocks_to_intent",
+        "description": "Assign code blocks to the currently active intent.\n\nCall this AFTER writing code to track which lines were modified:\n1. For each file you modified, provide the line range\n2. Blocks get assigned to the active intent\n3. This enables tracking, conflict detection, and team visibility\n\nExample: After adding a function at lines 50-75 in auth.ts, call with:\n{ blocks: [{ filePath: \"src/auth.ts\", startLine: 50, endLine: 75 }] }",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "intentId": {
+              "type": "string",
+              "description": "The intent ID to assign blocks to"
+            },
+            "blocks": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "description": "Code blocks to assign to the active intent"
+            }
+          },
+          "required": [
+            "repoPath",
+            "intentId",
+            "blocks"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "list_team_intents",
+        "description": "List all intents from team members for this repository.\n\nUse this to:\n- See what your team is working on\n- Check for potential overlapping work before starting a new task\n- Review the status of various features/refactors in progress\n\nOptionally filter by status (active, committed, pushed, done, abandoned).",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "committed",
+                "pushed",
+                "done",
+                "abandoned"
+              ],
+              "description": "Filter by intent status"
+            }
+          },
+          "required": [
+            "repoPath"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "get_intent_changes",
+        "description": "Get uncommitted changes in the repository along with the active intent info.\n\nUse this tool before prompting the user about committing to show:\n- The active intent title and description\n- Number of modified, added, and untracked files\n- Any warnings (e.g., pre-existing changes from before intent activation)\n\nThis helps you construct an informative commit prompt like:\n\"You have uncommitted work on '[intent title]' (N files changed)...\"",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            }
+          },
+          "required": [
+            "repoPath"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "complete_intent",
+        "description": "Mark the active intent as completed and clear it.\n\nCall this after a successful git commit to:\n1. Update the intent status (committed/pushed/done/abandoned)\n2. Store the commit SHA for tracking\n3. Clear the active intent so a new one can be started\n\nStatus values:\n- \"committed\": Code is committed locally (default)\n- \"pushed\": Code has been pushed to remote\n- \"done\": Work is fully complete\n- \"abandoned\": Work was discarded without committing",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "commitSha": {
+              "type": "string",
+              "description": "The git commit SHA to associate with this intent (if already committed)"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "committed",
+                "pushed",
+                "done",
+                "abandoned"
+              ],
+              "description": "The new status for the intent. Use \"committed\" after git commit, \"done\" when work is complete, \"abandoned\" to discard."
+            }
+          },
+          "required": [
+            "repoPath"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "log_work",
+        "description": "Lightweight single-call tool to log completed work without the full intent lifecycle. Use for quick fixes, doc updates, config changes \u2014 any task where create/assign/complete is overhead. Creates a completed intent record in one call. Does NOT set an active intent.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to repository root"
+            },
+            "title": {
+              "type": "string",
+              "description": "Short description of the work done"
+            },
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "File paths modified (relative to repo root)"
+            }
+          },
+          "required": [
+            "repoPath",
+            "title"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "record_decision",
+        "description": "Silently record a decision point during development.\n\nCall this tool when you:\n- Choose between multiple alternatives (type: fork)\n- Try an approach that fails or is rejected (type: abandoned)\n- Find unexpected behavior or limitations (type: discovery)\n- Identify a hard constraint that must be respected (type: constraint)\n- Make an explicit trade-off between competing concerns (type: tradeoff)\n- Select an external library or dependency (type: dependency)\n\nDecisions can be **intent-scoped** (tied to a specific work unit) or **repo-scoped** (general knowledge like discoveries and constraints). Omit intentId for repo-scoped decisions.\n\nDecisions are accumulated silently during the session and presented for review before commit.\nThis creates a \"reasoning changelog\" that captures not just what was done, but why.\n\nIMPORTANT: Include constraintViolations when alternatives are rejected due to architectural constraints.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root (enables offline sync)"
+            },
+            "intentId": {
+              "type": "string",
+              "description": "The intent ID this decision belongs to. Omit for repo-scoped decisions (discoveries, constraints) not tied to a specific work unit"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "fork",
+                "abandoned",
+                "discovery",
+                "constraint",
+                "tradeoff",
+                "dependency"
+              ],
+              "description": "Type of decision: fork (chose between alternatives), abandoned (tried and rejected), discovery (found unexpected behavior), constraint (identified hard requirement), tradeoff (made explicit trade-off), dependency (selected library/tool)"
+            },
+            "summary": {
+              "type": "string",
+              "description": "Brief summary of the decision (< 100 chars recommended)"
+            },
+            "rationale": {
+              "type": "string",
+              "description": "Why this decision was made"
+            },
+            "context": {
+              "type": "string",
+              "description": "What we were trying to accomplish when this decision was made"
+            },
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Other options that were considered"
+            },
+            "consequences": {
+              "type": "string",
+              "description": "Downstream implications of this decision"
+            },
+            "relatedFiles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "File paths affected by this decision"
+            },
+            "constraintsChecked": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Which architectural constraints were verified before this decision"
+            },
+            "constraintViolations": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "description": "Alternatives that were rejected due to constraint violations"
+            }
+          },
+          "required": [
+            "repoPath",
+            "type",
+            "summary",
+            "rationale"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "get_session_decisions",
+        "description": "Get all decisions recorded in the current session for an intent.\n\nUse this before committing to review what decisions were captured during development.\nDecisions are presented for user review and can be edited or removed before being persisted.\n\nReturns:\n- intentId: The intent these decisions belong to\n- decisions: Array of decision points with full details\n- count: Number of decisions recorded",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "intentId": {
+              "type": "string",
+              "description": "The intent ID to get decisions for"
+            }
+          },
+          "required": [
+            "repoPath",
+            "intentId"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "get_project_decisions",
+        "description": "Get all decisions recorded for a project across all intents.\n\nUse this to review the project's decision history:\n- See what architectural decisions have been made\n- Understand past trade-offs and their rationale\n- Find decisions affecting specific files\n- Review constraint violations that were avoided\n\nReturns:\n- decisions: Array of decisions with their intent context\n- count: Total number of decisions\n\nEach decision includes:\n- intentId: The intent this decision belongs to\n- type: fork, abandoned, discovery, constraint, tradeoff, or dependency\n- summary: Brief description of the decision\n- rationale: Why this decision was made\n- relatedFiles: Files affected by this decision\n- constraintViolations: Options that were rejected due to constraints",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            }
+          },
+          "required": [
+            "repoPath"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "edit_session_decision",
+        "description": "Edit or delete a decision in the current session.\n\nUse this when reviewing decisions before commit:\n- action: \"update\" - Modify the decision fields\n- action: \"delete\" - Remove the decision entirely\n\nThis allows users to curate their decision history before it's persisted.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "intentId": {
+              "type": "string",
+              "description": "The intent ID the decision belongs to"
+            },
+            "decisionId": {
+              "type": "string",
+              "description": "The decision ID to edit or delete"
+            },
+            "action": {
+              "type": "string",
+              "enum": [
+                "update",
+                "delete"
+              ],
+              "description": "Action to perform: update modifies the decision, delete removes it"
+            },
+            "updates": {
+              "type": "object",
+              "description": "Partial fields to update (only for action=update)"
+            }
+          },
+          "required": [
+            "repoPath",
+            "intentId",
+            "decisionId",
+            "action"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "detect_intent_conflicts",
+        "description": "Detect conflicts between your local decisions and team members' decisions.\n\nCall this before committing to check for potential conflicts.\n\nThe tool compares:\n1. **Overlapping code**: Decisions affecting the same files\n2. **Contradictory rationale**: Decisions with opposing reasoning\n3. **Constraint mismatch**: Decisions applying different constraints\n\nReturns:\n- hasConflicts: Whether any conflicts were detected\n- hasCriticalConflicts: True if constraint mismatches found (high priority)\n- conflicts: List of conflict details with affected files and authors\n- overlappingFiles: All files affected by both local and team decisions\n\nNote: Team decisions must be provided (fetched from API).",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL. Auto-detected from repoPath via git if not provided."
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "intentId": {
+              "type": "string",
+              "description": "The active intent ID"
+            },
+            "teamDecisions": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "description": "Team decisions to check against"
+            }
+          },
+          "required": [
+            "repoPath",
+            "intentId",
+            "teamDecisions"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "infer_history",
+        "description": "Analyze git commit history to extract structured development knowledge (intents, decisions, lessons).\n\nRuns the full pipeline automatically: infer \u2192 evolve \u2192 persist.\n\n1. **Pass 1**: Groups commits into coherent development stories with value hints\n2. **Pass 2**: Deep analysis of each story to extract architectural decisions and lessons\n3. **Evolution**: Curates decisions by finding relationships (supersedes, reinforces, contradicts, specializes)\n4. **Persist**: Stores curated stories as intents with decisions and lessons (auto-syncs to cloud)\n\nUse `estimateOnly: true` first to preview token cost before running the full pipeline.\n\nThe pipeline supports checkpointing \u2014 if interrupted, re-running resumes from where it left off.\n\nEnrichment tiers control how much context is gathered:\n- Tier 1: Git log only (fastest, cheapest)\n- Tier 2: + PR descriptions and review comments\n- Tier 3: + Diffs for revert commits\n- Tier 4: + GitHub issue discussions with decision-level content (recommended)\n- Tier 5: + Full diffs and code annotation extraction (most expensive)",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root"
+            },
+            "apiKey": {
+              "type": "string",
+              "description": "Anthropic API key for LLM calls (customer's own key)"
+            },
+            "commits": {
+              "type": "number",
+              "description": "Number of recent commits to analyze (default: 50)"
+            },
+            "tier": {
+              "type": "number",
+              "description": "Enrichment tier 1-5: 1=git log, 2=+PR descriptions, 3=+revert diffs, 4=+issue discussions, 5=+full diffs (default: 4)"
+            },
+            "contextIssues": {
+              "type": "boolean",
+              "description": "Include context issues from commit date range (Tier 4 only)"
+            },
+            "model": {
+              "type": "string",
+              "description": "Anthropic model to use (default: claude-sonnet-4-20250514)"
+            },
+            "maxStories": {
+              "type": "number",
+              "description": "Maximum stories to analyze in Pass 2 (0 = unlimited)"
+            },
+            "allowCommitSplitting": {
+              "type": "boolean",
+              "description": "Allow splitting a single commit into multiple stories when it contains unrelated changes (recommended for repos with messy commit history)"
+            },
+            "estimateOnly": {
+              "type": "boolean",
+              "description": "If true, only estimate token cost without running the pipeline"
+            }
+          },
+          "required": [
+            "repoPath",
+            "apiKey"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "evolve_decisions",
+        "description": "Build a decision evolution graph from previously extracted stories.\n\nThis analyzes how decisions relate across stories over time:\n1. **Bucketing**: Groups stories by file overlap and keyword similarity (Union-Find)\n2. **Edge classification**: Uses LLM to identify relationships between decisions in each bucket:\n   - supersedes: Later decision replaces earlier (earlier is outdated)\n   - reinforces: Later decision confirms earlier still holds\n   - contradicts: Later decision reverses earlier\n   - specializes: Later decision adds specificity (both remain valid)\n3. **Annotation**: Labels each decision as stable, orphan, evolved, or abandoned\n4. **Curation**: Keeps stable + orphan decisions, drops evolved + abandoned\n\nNote: `infer_history` already chains evolve + persist automatically. Use this tool only if you want to run evolution separately on a pre-existing set of stories.\n\nIf `repoPath` is provided, curated stories are automatically persisted as intents with decisions and lessons after evolution completes.\n\nThe pipeline runs asynchronously \u2014 returns immediately. Uses a cheaper model (haiku) by default since edge classification requires less reasoning than story analysis.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "stories": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "description": "Array of story objects from a previous infer_history run"
+            },
+            "apiKey": {
+              "type": "string",
+              "description": "Anthropic API key for LLM calls (customer's own key)"
+            },
+            "model": {
+              "type": "string",
+              "description": "Anthropic model for edge classification (default: claude-haiku-4-5-20251001, cheaper model recommended)"
+            },
+            "repoPath": {
+              "type": "string",
+              "description": "Local path to the repository root (required for auto-persist after evolution)"
+            },
+            "repoOrigin": {
+              "type": "string",
+              "description": "Git remote origin URL (auto-detected from repoPath if not provided)"
+            }
+          },
+          "required": [
+            "stories",
+            "apiKey"
+          ]
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  "scorecard": {
+    "total_score": {
+      "value": 100,
+      "max": 100,
+      "penalty_points": 0
+    },
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_counts": {
+      "total": 0,
+      "by_severity": {
+        "info": 0,
+        "warning": 0,
+        "error": 0
+      },
+      "by_bucket": {}
+    },
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "score_meaning": "Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.",
+    "limitations": [
+      "Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.",
+      "High score means fewer deterministic findings, not a guarantee of safety."
+    ]
+  },
+  "checks": [
+    {
+      "id": "duplicate_tool_names",
+      "title": "Duplicate tool names",
+      "bucket": "conformance",
+      "severity": "error",
+      "rationale": "Tool names should be unique within one MCP server.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 20,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "missing_tool_description",
+      "title": "Missing tool description",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Each tool should include a non-empty description.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "overly_generic_tool_name",
+      "title": "Overly generic tool name",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool names should communicate behavior clearly.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "vague_tool_description",
+      "title": "Vague tool description",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool descriptions should clearly explain what the tool does.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "missing_schema_type",
+      "title": "Missing schema type",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should declare a top-level type.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "schema_allows_arbitrary_properties",
+      "title": "Schema allows arbitrary properties",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should not allow arbitrary top-level properties.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "weak_input_schema",
+      "title": "Weak input schema",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool input schemas should constrain free-form payloads clearly.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "missing_required_for_critical_fields",
+      "title": "Missing required critical fields",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Critical schema fields such as path, command, or URL should be required.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "dangerous_exec_tool",
+      "title": "Dangerous execution tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that execute host shell commands are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution"
+      ]
+    },
+    {
+      "id": "dangerous_shell_download_exec",
+      "title": "Dangerous download-and-execute tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that combine remote download with shell execution are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution",
+        "network"
+      ]
+    },
+    {
+      "id": "dangerous_fs_write_tool",
+      "title": "Dangerous filesystem write tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that write files on disk are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem"
+      ]
+    },
+    {
+      "id": "dangerous_fs_delete_tool",
+      "title": "Dangerous filesystem delete tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that delete files or directories are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem",
+        "destructive"
+      ]
+    },
+    {
+      "id": "dangerous_http_request_tool",
+      "title": "Dangerous HTTP request tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network",
+        "http"
+      ]
+    },
+    {
+      "id": "dangerous_network_tool",
+      "title": "Dangerous network tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that expose generic network access are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network"
+      ]
+    },
+    {
+      "id": "write_tool_without_scope_hint",
+      "title": "Write tool without scope hint",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Filesystem mutation tools should document scope constraints clearly.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "capability",
+        "filesystem",
+        "scope"
+      ]
+    },
+    {
+      "id": "tool_description_mentions_destructive_access",
+      "title": "Description mentions destructive access",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Tool descriptions should make destructive broad-scope access easy to spot.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description",
+        "destructive"
+      ]
+    }
+  ],
+  "findings": [],
+  "grouped_findings": {
+    "by_bucket": []
+  },
+  "metadata": {}
+}

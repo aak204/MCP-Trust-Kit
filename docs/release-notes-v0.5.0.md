@@ -57,7 +57,7 @@ GitHub Actions:
 
 ```yaml
 - name: Run MCP Scorecard
-  uses: aak204/MCP-Trust-Kit@v0.5.0
+  uses: aak204/MCP-Scorecard@v0.5.0
   with:
     cmd: python path/to/your/server.py
     min-score: "80"

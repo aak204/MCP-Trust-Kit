@@ -1,0 +1,1367 @@
+[
+  {
+    "key": "official_everything",
+    "label": "@modelcontextprotocol/server-everything",
+    "developer": "modelcontextprotocol",
+    "source": "official",
+    "category": "reference",
+    "package": "@modelcontextprotocol/server-everything",
+    "version": "2026.1.26",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@modelcontextprotocol/server-everything@2026.1.26",
+      "mcp-server-everything"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Score Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 90/100 (findings: 1, penalties: 10)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- ergonomics: 1 finding, penalties: 10\n  - WARNING weak_input_schema [get-env]: Tool 'get-env' exposes a weak input schema that leaves free-form input underconstrained.\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:44:17.202458+00:00",
+    "server_name": "mcp-servers/everything",
+    "server_version": "2.0.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 13,
+    "total_score": 90,
+    "penalty_points": 10,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "weak_input_schema": 10
+        }
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 1,
+    "why_this_score": "Score is driven mainly by ergonomics findings.",
+    "finding_ids": [
+      "weak_input_schema"
+    ]
+  },
+  {
+    "key": "official_memory",
+    "label": "@modelcontextprotocol/server-memory",
+    "developer": "modelcontextprotocol",
+    "source": "official",
+    "category": "memory",
+    "package": "@modelcontextprotocol/server-memory",
+    "version": "2026.1.26",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@modelcontextprotocol/server-memory@2026.1.26",
+      "mcp-server-memory"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Why This Score: No deterministic issues were detected in the current server surface.\nScore Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 100/100 (findings: 0, penalties: 0)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- none\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:44:18.414808+00:00",
+    "server_name": "memory-server",
+    "server_version": "0.6.3",
+    "protocol_version": "2025-11-25",
+    "tool_count": 9,
+    "total_score": 100,
+    "penalty_points": 0,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 0,
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "finding_ids": []
+  },
+  {
+    "key": "official_filesystem",
+    "label": "@modelcontextprotocol/server-filesystem",
+    "developer": "modelcontextprotocol",
+    "source": "official",
+    "category": "filesystem",
+    "package": "@modelcontextprotocol/server-filesystem",
+    "version": "2026.1.14",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@modelcontextprotocol/server-filesystem@2026.1.14",
+      "mcp-server-filesystem",
+      "d:\\Dev\\MCP Trust Kit\\.tmp-public-scan-30\\fs-sandbox"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 40/100 (findings: 3, penalties: 60)\n- ergonomics: 100/100 (findings: 0, penalties: 0)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- security: 3 findings, penalties: 60\n  - ERROR dangerous_fs_write_tool [create_directory]: Tool 'create_directory' appears to provide filesystem write access.\n  - ERROR dangerous_fs_write_tool [edit_file]: Tool 'edit_file' appears to provide filesystem write access.\n  - ERROR dangerous_fs_write_tool [write_file]: Tool 'write_file' appears to provide filesystem write access.\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:44:19.601425+00:00",
+    "server_name": "secure-filesystem-server",
+    "server_version": "0.2.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 14,
+    "total_score": 40,
+    "penalty_points": 60,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 40,
+        "max_score": 100,
+        "penalty_points": 60,
+        "finding_count": 3,
+        "check_penalties": {
+          "dangerous_fs_write_tool": 60
+        }
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 3,
+    "why_this_score": "Score is driven mainly by security findings in file system.",
+    "finding_ids": [
+      "dangerous_fs_write_tool",
+      "dangerous_fs_write_tool",
+      "dangerous_fs_write_tool"
+    ]
+  },
+  {
+    "key": "official_sequential_thinking",
+    "label": "@modelcontextprotocol/server-sequential-thinking",
+    "developer": "modelcontextprotocol",
+    "source": "official",
+    "category": "reasoning",
+    "package": "@modelcontextprotocol/server-sequential-thinking",
+    "version": "2025.12.18",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@modelcontextprotocol/server-sequential-thinking@2025.12.18",
+      "mcp-server-sequential-thinking"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Why This Score: No deterministic issues were detected in the current server surface.\nScore Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 100/100 (findings: 0, penalties: 0)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- none\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:44:24.425024+00:00",
+    "server_name": "sequential-thinking-server",
+    "server_version": "0.2.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 1,
+    "total_score": 100,
+    "penalty_points": 0,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 0,
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "finding_ids": []
+  },
+  {
+    "key": "dossier",
+    "label": "ai.imboard/dossier",
+    "developer": "imboard-ai",
+    "source": "registry",
+    "category": "workflow",
+    "package": "@ai-dossier/mcp-server",
+    "version": "1.0.4",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@ai-dossier/mcp-server@1.0.4",
+      "dossier-mcp-server"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Timed out waiting for response to initialize after 10.0s. Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "kawacode",
+    "label": "ai.kawacode/mcp",
+    "developer": "codeawareness",
+    "source": "registry",
+    "category": "engineering",
+    "package": "@kawacode/mcp",
+    "version": "5.0.4",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@kawacode/mcp@5.0.4",
+      "kawacode-mcp"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Why This Score: No deterministic issues were detected in the current server surface.\nScore Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 100/100 (findings: 0, penalties: 0)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- none\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:44:39.683549+00:00",
+    "server_name": "kawa-intents",
+    "server_version": "0.3.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 17,
+    "total_score": 100,
+    "penalty_points": 0,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 0,
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "finding_ids": []
+  },
+  {
+    "key": "meetlark",
+    "label": "ai.meetlark/mcp-server",
+    "developer": "meetlark",
+    "source": "registry",
+    "category": "scheduling",
+    "package": "@meetlark/mcp-server",
+    "version": "1.0.3",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@meetlark/mcp-server@1.0.3",
+      "meetlark-mcp"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Why This Score: No deterministic issues were detected in the current server surface.\nScore Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 100/100 (findings: 0, penalties: 0)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- none\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:44:41.020432+00:00",
+    "server_name": "meetlark",
+    "server_version": "1.0.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 6,
+    "total_score": 100,
+    "penalty_points": 0,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 0,
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "finding_ids": []
+  },
+  {
+    "key": "perplexity",
+    "label": "ai.perplexity/mcp-server",
+    "developer": "perplexity",
+    "source": "registry",
+    "category": "search",
+    "package": "@perplexity-ai/mcp-server",
+    "version": "0.9.0",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@perplexity-ai/mcp-server@0.9.0",
+      "perplexity-mcp"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server exited with code None while waiting for response to initialize.\nStderr tail:\nError: PERPLEXITY_API_KEY environment variable is required Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "rapay",
+    "label": "ai.rapay/mcp-server",
+    "developer": "Ra-Pay-AI",
+    "source": "registry",
+    "category": "payments",
+    "package": "@rapay/mcp-server",
+    "version": "1.2.5",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@rapay/mcp-server@1.2.5",
+      "rapay-mcp-server"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Why This Score: No deterministic issues were detected in the current server surface.\nScore Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 100/100 (findings: 0, penalties: 0)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- none\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:44:51.775212+00:00",
+    "server_name": "rapay-mcp",
+    "server_version": "1.2.5",
+    "protocol_version": "2025-11-25",
+    "tool_count": 7,
+    "total_score": 100,
+    "penalty_points": 0,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 0,
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "finding_ids": []
+  },
+  {
+    "key": "spritecook",
+    "label": "ai.spritecook/generate",
+    "developer": "SpriteCook",
+    "source": "registry",
+    "category": "media",
+    "package": "spritecook-mcp",
+    "version": "0.2.6",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "spritecook-mcp@0.2.6",
+      "spritecook-mcp"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server wrote invalid JSON to stdout: 'SpriteCook MCP Setup'. Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "telbase",
+    "label": "ai.telbase/deploy",
+    "developer": "Victor-EU",
+    "source": "registry",
+    "category": "deployment",
+    "package": "telbase",
+    "version": "0.14.0-beta.2",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "telbase@0.14.0-beta.2",
+      "telbase"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server wrote invalid JSON to stdout: 'Telbase is a Claude-first deployment platform for internal business tools.'. Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "hypertool",
+    "label": "ai.toolprint/hypertool-mcp",
+    "developer": "toolprint",
+    "source": "registry",
+    "category": "proxy",
+    "package": "@toolprint/hypertool-mcp",
+    "version": "0.0.42",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@toolprint/hypertool-mcp@0.0.42",
+      "hypertool-mcp"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Timed out waiting for response to initialize after 10.0s. Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "deepcontext",
+    "label": "ai.wild-card/deepcontext",
+    "developer": "Wildcard-Official",
+    "source": "registry",
+    "category": "code-search",
+    "package": "@wildcard-ai/deepcontext",
+    "version": "0.1.15",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@wildcard-ai/deepcontext@0.1.15",
+      "deepcontext"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Why This Score: No deterministic issues were detected in the current server surface.\nScore Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 100/100 (findings: 0, penalties: 0)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- none\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:45:13.468729+00:00",
+    "server_name": "intelligent-context-mcp",
+    "server_version": "2.0.0",
+    "protocol_version": "2024-11-05",
+    "tool_count": 4,
+    "total_score": 100,
+    "penalty_points": 0,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 0,
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "finding_ids": []
+  },
+  {
+    "key": "businys",
+    "label": "app.businys/mcp-server",
+    "developer": "hiatys",
+    "source": "registry",
+    "category": "business-ops",
+    "package": "@businys/mcp-server",
+    "version": "1.0.1",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@businys/mcp-server@1.0.1",
+      "businys-mcp"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server exited with code None while waiting for response to initialize.\nStderr tail:\nnpm error code EUNSUPPORTEDPROTOCOL\nnpm error Unsupported URL Type \"workspace:\": workspace:*\nnpm error A complete log of this run can be found in: C:\\Users\\aak25\\AppData\\Local\\npm-cache\\_logs\\2026-04-09T16_45_13_789Z-debug-0.log Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "trustrails",
+    "label": "app.trustrails/server",
+    "developer": "james-webdev",
+    "source": "registry",
+    "category": "commerce-search",
+    "package": "@trustrails/mcp-server",
+    "version": "1.0.7",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@trustrails/mcp-server@1.0.7",
+      "trustrails-mcp"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Why This Score: No deterministic issues were detected in the current server surface.\nScore Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 100/100 (findings: 0, penalties: 0)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- none\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:45:20.210730+00:00",
+    "server_name": "trustrails",
+    "server_version": "0.1.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 2,
+    "total_score": 100,
+    "penalty_points": 0,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 0,
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "finding_ids": []
+  },
+  {
+    "key": "mysql_ro",
+    "label": "capital.hove/read-only-local-mysql-mcp-server",
+    "developer": "hovecapital",
+    "source": "registry",
+    "category": "database",
+    "package": "@hovecapital/read-only-mysql-mcp-server",
+    "version": "0.1.1",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@hovecapital/read-only-mysql-mcp-server@0.1.1",
+      "read-only-mysql-mcp-server"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Score Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 90/100 (findings: 1, penalties: 10)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- ergonomics: 1 finding, penalties: 10\n  - WARNING weak_input_schema [disconnect]: Tool 'disconnect' exposes a weak input schema that leaves free-form input underconstrained.\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:45:27.335035+00:00",
+    "server_name": "mysql-server",
+    "server_version": "0.1.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 3,
+    "total_score": 90,
+    "penalty_points": 10,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "weak_input_schema": 10
+        }
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 1,
+    "why_this_score": "Score is driven mainly by ergonomics findings.",
+    "finding_ids": [
+      "weak_input_schema"
+    ]
+  },
+  {
+    "key": "postgres_ro",
+    "label": "capital.hove/read-only-local-postgres-mcp-server",
+    "developer": "hovecapital",
+    "source": "registry",
+    "category": "database",
+    "package": "@hovecapital/read-only-postgres-mcp-server",
+    "version": "0.1.0",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@hovecapital/read-only-postgres-mcp-server@0.1.0",
+      "read-only-postgres-mcp-server"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Score Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 90/100 (findings: 1, penalties: 10)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- ergonomics: 1 finding, penalties: 10\n  - WARNING weak_input_schema [disconnect]: Tool 'disconnect' exposes a weak input schema that leaves free-form input underconstrained.\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:45:33.154317+00:00",
+    "server_name": "postgresql-server",
+    "server_version": "0.1.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 3,
+    "total_score": 90,
+    "penalty_points": 10,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "weak_input_schema": 10
+        }
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 1,
+    "why_this_score": "Score is driven mainly by ergonomics findings.",
+    "finding_ids": [
+      "weak_input_schema"
+    ]
+  },
+  {
+    "key": "promptguard",
+    "label": "co.promptguard/security",
+    "developer": "acebot712",
+    "source": "registry",
+    "category": "security",
+    "package": "@promptguard/mcp-server",
+    "version": "1.0.0",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@promptguard/mcp-server@1.0.0",
+      "promptguard-mcp-server"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server exited with code None while waiting for response to initialize.\nStderr tail:\n  promptguard-mcp-server is not installed.\n  Install via one of:\n    pip install promptguard-mcp-server\n    brew tap promptguard/tap && brew install promptguard\n    uvx promptguard-mcp-server\n  Or run with Docker:\n    docker run -e PROMPTGUARD_API_KEY=pg_xxx abhijoysarkar/promptguard-mcp-server\n  Docs: https://docs.promptguard.co/tools/mcp Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "claims_verify",
+    "label": "com.636865636b73756d/mcp-v1",
+    "developer": "636865636b73756d",
+    "source": "registry",
+    "category": "verification",
+    "package": "@636865636b73756d/mcp-v1",
+    "version": "1.0.1",
+    "required_envs": [],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@636865636b73756d/mcp-v1@1.0.1",
+      "cs-mcp"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Score Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 90/100 (findings: 1, penalties: 10)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- ergonomics: 1 finding, penalties: 10\n  - WARNING weak_input_schema [get_trending]: Tool 'get_trending' exposes a weak input schema that leaves free-form input underconstrained.\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:45:39.806921+00:00",
+    "server_name": "cs-mcp",
+    "server_version": "1.0.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 2,
+    "total_score": 90,
+    "penalty_points": 10,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "weak_input_schema": 10
+        }
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 1,
+    "why_this_score": "Score is driven mainly by ergonomics findings.",
+    "finding_ids": [
+      "weak_input_schema"
+    ]
+  },
+  {
+    "key": "agenttrust",
+    "label": "ai.agenttrust/mcp-server",
+    "developer": "agenttrust",
+    "source": "registry",
+    "category": "identity",
+    "package": "@agenttrust/mcp-server",
+    "version": "1.1.1",
+    "required_envs": [
+      "AGENTTRUST_API_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@agenttrust/mcp-server@1.1.1",
+      "agenttrust-mcp"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server exited with code None while waiting for response to initialize.\nStderr tail:\nnpm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\nFatal error: Error: AgentTrust is not configured. Run `agenttrust-mcp init` or set AGENTTRUST_API_KEY.\n    at makeError (file:///C:/Users/aak25/AppData/Local/npm-cache/_npx/78a47076a9ba42d9/node_modules/@agenttrust/mcp-server/dist/index.js:24:12)\n    at ensureConfigReady (file:///C:/Users/aak25/AppData/Local/npm-cache/_npx/78a47076a9ba42d9/node_modules/@agenttrust/mcp-server/dist/index.js:983:15)\n    at async runStdioServer (file:///C:/Users/aak25/AppData/Local/npm-cache/_npx/78a47076a9ba42d9/node_modules/@agenttrust/mcp-server/dist/index.js:991:5)\n    at async main (file:///C:/Users/aak25/AppData/Local/npm-cache/_npx/78a47076a9ba42d9/node_modules/@agenttrust/mcp-server/dist/index.js:1072:5) Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "fodda",
+    "label": "ai.fodda/mcp-server",
+    "developer": "fodda",
+    "source": "registry",
+    "category": "knowledge-graph",
+    "package": "fodda-mcp",
+    "version": "1.3.0",
+    "required_envs": [
+      "FODDA_API_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "fodda-mcp@1.3.0",
+      "fodda-mcp"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server wrote invalid JSON to stdout: \"\\u25c7 injected env (0) from .env // tip: \\u2318 multiple files { path: ['.env.local', '.env'] }\". Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "i18n_agent",
+    "label": "ai.i18nagent/i18n-agent",
+    "developer": "i18n-agent",
+    "source": "registry",
+    "category": "translation",
+    "package": "@i18n-agent/mcp-client",
+    "version": "1.16.3",
+    "required_envs": [
+      "I18N_AGENT_API_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@i18n-agent/mcp-client@1.16.3",
+      "mcp-client"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server exited with code None while waiting for response to initialize.\nStderr tail:\nfile:///C:/Users/aak25/AppData/Local/npm-cache/_npx/f3b65a617bd8b6df/node_modules/@i18n-agent/mcp-client/i18n-agent.js:46\n  throw new Error('MCP_SERVER_URL environment variable is required');\n        ^\nError: MCP_SERVER_URL environment variable is required\n    at file:///C:/Users/aak25/AppData/Local/npm-cache/_npx/f3b65a617bd8b6df/node_modules/@i18n-agent/mcp-client/i18n-agent.js:46:9\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\nNode.js v24.11.1 Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "proofslip",
+    "label": "ai.proofslip/mcp-server",
+    "developer": "Johnny-Z13",
+    "source": "registry",
+    "category": "receipts",
+    "package": "@proofslip/mcp-server",
+    "version": "0.2.3",
+    "required_envs": [
+      "PROOFSLIP_API_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@proofslip/mcp-server@0.2.3",
+      "proofslip-mcp"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Score Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 90/100 (findings: 1, penalties: 10)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- ergonomics: 1 finding, penalties: 10\n  - WARNING weak_input_schema [create_receipt]: Tool 'create_receipt' exposes a weak input schema that leaves free-form input underconstrained.\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:46:04.983461+00:00",
+    "server_name": "proofslip",
+    "server_version": "0.2.1",
+    "protocol_version": "2025-11-25",
+    "tool_count": 4,
+    "total_score": 90,
+    "penalty_points": 10,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "weak_input_schema": 10
+        }
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 1,
+    "why_this_score": "Score is driven mainly by ergonomics findings.",
+    "finding_ids": [
+      "weak_input_schema"
+    ]
+  },
+  {
+    "key": "rolli",
+    "label": "ai.rolli/mcp",
+    "developer": "rolliinc",
+    "source": "registry",
+    "category": "social-analytics",
+    "package": "@rolli/mcp",
+    "version": "1.1.7",
+    "required_envs": [
+      "ROLLI_API_TOKEN"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@rolli/mcp@1.1.7",
+      "rolli-mcp"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server exited with code None while waiting for response to initialize.\nStderr tail:\nError: ROLLI_API_TOKEN environment variable is required.\nSet it in your MCP client configuration. Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "socialapi",
+    "label": "ai.social-api/socialapi",
+    "developer": "SocialAPI-AI",
+    "source": "registry",
+    "category": "social-ops",
+    "package": "mcp-socialapi",
+    "version": "1.0.1",
+    "required_envs": [
+      "SOCIALAPI_API_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "mcp-socialapi@1.0.1",
+      "mcp-socialapi"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "- security: 60/100 (findings: 2, penalties: 40)\n- ergonomics: 100/100 (findings: 0, penalties: 0)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- security: 2 findings, penalties: 40\n  - ERROR dangerous_http_request_tool [social_api_create_webhook]: Tool 'social_api_create_webhook' appears to expose outbound HTTP request capability.\n  - ERROR dangerous_http_request_tool [social_api_update_webhook]: Tool 'social_api_update_webhook' appears to expose outbound HTTP request capability.\n- conformance: 1 finding, penalties: 10\n  - WARNING missing_required_for_critical_fields [social_api_update_webhook]: Tool 'social_api_update_webhook' defines critical input fields that are not required.\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:46:14.001049+00:00",
+    "server_name": "socialapi",
+    "server_version": "1.0.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 25,
+    "total_score": 50,
+    "penalty_points": 50,
+    "category_scores": {
+      "conformance": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "missing_required_for_critical_fields": 10
+        }
+      },
+      "security": {
+        "score": 60,
+        "max_score": 100,
+        "penalty_points": 40,
+        "finding_count": 2,
+        "check_penalties": {
+          "dangerous_http_request_tool": 40
+        }
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 3,
+    "why_this_score": "Score is driven mainly by security findings in network and conformance findings.",
+    "finding_ids": [
+      "missing_required_for_critical_fields",
+      "dangerous_http_request_tool",
+      "dangerous_http_request_tool"
+    ]
+  },
+  {
+    "key": "tickerapi",
+    "label": "ai.tickerapi/mcp-server",
+    "developer": "TickerAPI",
+    "source": "registry",
+    "category": "market-data",
+    "package": "tickerapi-mcp-server",
+    "version": "1.7.2",
+    "required_envs": [
+      "TICKERAPI_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "tickerapi-mcp-server@1.7.2",
+      "tickerapi-mcp-server"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "  \"mcpServers\": {\n    \"tickerapi\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"@tickerapi/mcp-server\"\n      ],\n      \"env\": {\n        \"TICKERAPI_KEY\": \"YOUR_API_KEY\"\n      }\n    }\n  }\n} Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "tuteliq",
+    "label": "ai.tuteliq/mcp",
+    "developer": "Tuteliq",
+    "source": "registry",
+    "category": "moderation",
+    "package": "@tuteliq/mcp",
+    "version": "3.8.1",
+    "required_envs": [
+      "TUTELIQ_API_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@tuteliq/mcp@3.8.1",
+      "tuteliq-mcp"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server exited with code None while waiting for response to initialize. Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "borough",
+    "label": "app.qwady/borough",
+    "developer": "jdmay2",
+    "source": "registry",
+    "category": "real-estate",
+    "package": "@borough/mcp",
+    "version": "1.1.0",
+    "required_envs": [
+      "BOROUGH_API_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@borough/mcp@1.1.0",
+      "borough-mcp"
+    ],
+    "exit_code": 2,
+    "status": "failed",
+    "stdout_tail": "",
+    "stderr_tail": "Scan failed: Server exited with code None while waiting for response to initialize.\nStderr tail:\nError: BOROUGH_API_KEY environment variable is required.\nGet your free API key at: https://borough.qwady.app/pricing Check --cmd, verify the server starts locally over stdio, and review stderr output.",
+    "report_exists": false
+  },
+  {
+    "key": "truncus",
+    "label": "co.truncus/mcp-server",
+    "developer": "vanmoose",
+    "source": "registry",
+    "category": "email",
+    "package": "@truncus/mcp-server",
+    "version": "0.1.1",
+    "required_envs": [
+      "TRUNCUS_API_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "@truncus/mcp-server@0.1.1",
+      "truncus-mcp"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Score Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 90/100 (findings: 1, penalties: 10)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- ergonomics: 1 finding, penalties: 10\n  - WARNING weak_input_schema [truncus_list_domains]: Tool 'truncus_list_domains' exposes a weak input schema that leaves free-form input underconstrained.\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:46:35.349526+00:00",
+    "server_name": "truncus-email",
+    "server_version": "0.1.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 6,
+    "total_score": 90,
+    "penalty_points": 10,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "weak_input_schema": 10
+        }
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 1,
+    "why_this_score": "Score is driven mainly by ergonomics findings.",
+    "finding_ids": [
+      "weak_input_schema"
+    ]
+  },
+  {
+    "key": "docqa",
+    "label": "com.agentsconsultants.api/docqa",
+    "developer": "digitalpromptmarket-beep",
+    "source": "registry",
+    "category": "document-qa",
+    "package": "docqa-mcp",
+    "version": "1.0.2",
+    "required_envs": [
+      "DOCQA_API_KEY"
+    ],
+    "cmd": [
+      "C:\\nvm4w\\nodejs\\npx.cmd",
+      "-y",
+      "-p",
+      "docqa-mcp@1.0.2",
+      "docqa-mcp"
+    ],
+    "exit_code": 0,
+    "status": "success",
+    "stdout_tail": "Score Meaning: Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.\nCategory Scores:\n- conformance: 100/100 (findings: 0, penalties: 0)\n- security: 100/100 (findings: 0, penalties: 0)\n- ergonomics: 90/100 (findings: 1, penalties: 10)\n- metadata: 100/100 (findings: 0, penalties: 0)\nFindings By Bucket:\n- ergonomics: 1 finding, penalties: 10\n  - WARNING weak_input_schema [docqa-sample]: Tool 'docqa-sample' exposes a weak input schema that leaves free-form input underconstrained.\nLimitations:\n- Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.\n- High score means fewer deterministic findings, not a guarantee of safety.",
+    "stderr_tail": "",
+    "report_exists": true,
+    "scan_timestamp": "2026-04-09T16:46:39.764829+00:00",
+    "server_name": "docqa-mcp",
+    "server_version": "1.0.0",
+    "protocol_version": "2025-11-25",
+    "tool_count": 5,
+    "total_score": 90,
+    "penalty_points": 10,
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "weak_input_schema": 10
+        }
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_total": 1,
+    "why_this_score": "Score is driven mainly by ergonomics findings.",
+    "finding_ids": [
+      "weak_input_schema"
+    ]
+  }
+]

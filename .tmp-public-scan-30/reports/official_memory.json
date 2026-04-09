@@ -1,0 +1,617 @@
+{
+  "schema": {
+    "id": "mcp-scorecard-report",
+    "version": "1.0"
+  },
+  "generator": {
+    "product_name": "MCP Scorecard",
+    "tool_name": "mcp-scorecard",
+    "package_name": "mcp-scorecard",
+    "package_version": "1.0.0"
+  },
+  "scan": {
+    "timestamp": "2026-04-09T16:44:18.414808+00:00",
+    "target": {
+      "raw": "stdio:[\"C:\\\\nvm4w\\\\nodejs\\\\npx.cmd\",\"-y\",\"-p\",\"@modelcontextprotocol/server-memory@2026.1.26\",\"mcp-server-memory\"]",
+      "transport": "stdio",
+      "description": "Local MCP server launched over stdio.",
+      "server_name": "memory-server",
+      "server_version": "0.6.3",
+      "protocol_version": "2025-11-25",
+      "metadata": {
+        "mcp": {
+          "protocolVersion": "2025-11-25",
+          "capabilities": {
+            "tools": {
+              "listChanged": true
+            }
+          },
+          "transport": "stdio",
+          "command": [
+            "C:\\nvm4w\\nodejs\\npx.cmd",
+            "-y",
+            "-p",
+            "@modelcontextprotocol/server-memory@2026.1.26",
+            "mcp-server-memory"
+          ]
+        }
+      }
+    }
+  },
+  "inventory": {
+    "tool_count": 9,
+    "tools": [
+      {
+        "name": "create_entities",
+        "description": "Create multiple new entities in the knowledge graph",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "entities": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the entity"
+                  },
+                  "entityType": {
+                    "type": "string",
+                    "description": "The type of the entity"
+                  },
+                  "observations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "An array of observation contents associated with the entity"
+                  }
+                },
+                "required": [
+                  "name",
+                  "entityType",
+                  "observations"
+                ]
+              }
+            }
+          },
+          "required": [
+            "entities"
+          ]
+        },
+        "metadata": {
+          "title": "Create Entities"
+        }
+      },
+      {
+        "name": "create_relations",
+        "description": "Create multiple new relations between entities in the knowledge graph. Relations should be in active voice",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "relations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "from": {
+                    "type": "string",
+                    "description": "The name of the entity where the relation starts"
+                  },
+                  "to": {
+                    "type": "string",
+                    "description": "The name of the entity where the relation ends"
+                  },
+                  "relationType": {
+                    "type": "string",
+                    "description": "The type of the relation"
+                  }
+                },
+                "required": [
+                  "from",
+                  "to",
+                  "relationType"
+                ]
+              }
+            }
+          },
+          "required": [
+            "relations"
+          ]
+        },
+        "metadata": {
+          "title": "Create Relations"
+        }
+      },
+      {
+        "name": "add_observations",
+        "description": "Add new observations to existing entities in the knowledge graph",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "observations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "entityName": {
+                    "type": "string",
+                    "description": "The name of the entity to add the observations to"
+                  },
+                  "contents": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "An array of observation contents to add"
+                  }
+                },
+                "required": [
+                  "entityName",
+                  "contents"
+                ]
+              }
+            }
+          },
+          "required": [
+            "observations"
+          ]
+        },
+        "metadata": {
+          "title": "Add Observations"
+        }
+      },
+      {
+        "name": "delete_entities",
+        "description": "Delete multiple entities and their associated relations from the knowledge graph",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "entityNames": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "An array of entity names to delete"
+            }
+          },
+          "required": [
+            "entityNames"
+          ]
+        },
+        "metadata": {
+          "title": "Delete Entities"
+        }
+      },
+      {
+        "name": "delete_observations",
+        "description": "Delete specific observations from entities in the knowledge graph",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "deletions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "entityName": {
+                    "type": "string",
+                    "description": "The name of the entity containing the observations"
+                  },
+                  "observations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "An array of observations to delete"
+                  }
+                },
+                "required": [
+                  "entityName",
+                  "observations"
+                ]
+              }
+            }
+          },
+          "required": [
+            "deletions"
+          ]
+        },
+        "metadata": {
+          "title": "Delete Observations"
+        }
+      },
+      {
+        "name": "delete_relations",
+        "description": "Delete multiple relations from the knowledge graph",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "relations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "from": {
+                    "type": "string",
+                    "description": "The name of the entity where the relation starts"
+                  },
+                  "to": {
+                    "type": "string",
+                    "description": "The name of the entity where the relation ends"
+                  },
+                  "relationType": {
+                    "type": "string",
+                    "description": "The type of the relation"
+                  }
+                },
+                "required": [
+                  "from",
+                  "to",
+                  "relationType"
+                ]
+              },
+              "description": "An array of relations to delete"
+            }
+          },
+          "required": [
+            "relations"
+          ]
+        },
+        "metadata": {
+          "title": "Delete Relations"
+        }
+      },
+      {
+        "name": "read_graph",
+        "description": "Read the entire knowledge graph",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "Read Graph"
+        }
+      },
+      {
+        "name": "search_nodes",
+        "description": "Search for nodes in the knowledge graph based on a query",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The search query to match against entity names, types, and observation content"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "metadata": {
+          "title": "Search Nodes"
+        }
+      },
+      {
+        "name": "open_nodes",
+        "description": "Open specific nodes in the knowledge graph by their names",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "names": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "An array of entity names to retrieve"
+            }
+          },
+          "required": [
+            "names"
+          ]
+        },
+        "metadata": {
+          "title": "Open Nodes"
+        }
+      }
+    ]
+  },
+  "scorecard": {
+    "total_score": {
+      "value": 100,
+      "max": 100,
+      "penalty_points": 0
+    },
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_counts": {
+      "total": 0,
+      "by_severity": {
+        "info": 0,
+        "warning": 0,
+        "error": 0
+      },
+      "by_bucket": {}
+    },
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "score_meaning": "Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.",
+    "limitations": [
+      "Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.",
+      "High score means fewer deterministic findings, not a guarantee of safety."
+    ]
+  },
+  "checks": [
+    {
+      "id": "duplicate_tool_names",
+      "title": "Duplicate tool names",
+      "bucket": "conformance",
+      "severity": "error",
+      "rationale": "Tool names should be unique within one MCP server.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 20,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "missing_tool_description",
+      "title": "Missing tool description",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Each tool should include a non-empty description.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "overly_generic_tool_name",
+      "title": "Overly generic tool name",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool names should communicate behavior clearly.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "vague_tool_description",
+      "title": "Vague tool description",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool descriptions should clearly explain what the tool does.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "missing_schema_type",
+      "title": "Missing schema type",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should declare a top-level type.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "schema_allows_arbitrary_properties",
+      "title": "Schema allows arbitrary properties",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should not allow arbitrary top-level properties.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "weak_input_schema",
+      "title": "Weak input schema",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool input schemas should constrain free-form payloads clearly.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "missing_required_for_critical_fields",
+      "title": "Missing required critical fields",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Critical schema fields such as path, command, or URL should be required.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "dangerous_exec_tool",
+      "title": "Dangerous execution tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that execute host shell commands are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution"
+      ]
+    },
+    {
+      "id": "dangerous_shell_download_exec",
+      "title": "Dangerous download-and-execute tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that combine remote download with shell execution are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution",
+        "network"
+      ]
+    },
+    {
+      "id": "dangerous_fs_write_tool",
+      "title": "Dangerous filesystem write tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that write files on disk are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem"
+      ]
+    },
+    {
+      "id": "dangerous_fs_delete_tool",
+      "title": "Dangerous filesystem delete tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that delete files or directories are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem",
+        "destructive"
+      ]
+    },
+    {
+      "id": "dangerous_http_request_tool",
+      "title": "Dangerous HTTP request tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network",
+        "http"
+      ]
+    },
+    {
+      "id": "dangerous_network_tool",
+      "title": "Dangerous network tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that expose generic network access are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network"
+      ]
+    },
+    {
+      "id": "write_tool_without_scope_hint",
+      "title": "Write tool without scope hint",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Filesystem mutation tools should document scope constraints clearly.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "capability",
+        "filesystem",
+        "scope"
+      ]
+    },
+    {
+      "id": "tool_description_mentions_destructive_access",
+      "title": "Description mentions destructive access",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Tool descriptions should make destructive broad-scope access easy to spot.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description",
+        "destructive"
+      ]
+    }
+  ],
+  "findings": [],
+  "grouped_findings": {
+    "by_bucket": []
+  },
+  "metadata": {}
+}

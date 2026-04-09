@@ -1,0 +1,831 @@
+{
+  "schema": {
+    "id": "mcp-scorecard-report",
+    "version": "1.0"
+  },
+  "generator": {
+    "product_name": "MCP Scorecard",
+    "tool_name": "mcp-scorecard",
+    "package_name": "mcp-scorecard",
+    "package_version": "1.0.0"
+  },
+  "scan": {
+    "timestamp": "2026-04-09T16:44:19.601425+00:00",
+    "target": {
+      "raw": "stdio:[\"C:\\\\nvm4w\\\\nodejs\\\\npx.cmd\",\"-y\",\"-p\",\"@modelcontextprotocol/server-filesystem@2026.1.14\",\"mcp-server-filesystem\",\"d:\\\\Dev\\\\MCP Trust Kit\\\\.tmp-public-scan-30\\\\fs-sandbox\"]",
+      "transport": "stdio",
+      "description": "Local MCP server launched over stdio.",
+      "server_name": "secure-filesystem-server",
+      "server_version": "0.2.0",
+      "protocol_version": "2025-11-25",
+      "metadata": {
+        "mcp": {
+          "protocolVersion": "2025-11-25",
+          "capabilities": {
+            "tools": {
+              "listChanged": true
+            }
+          },
+          "transport": "stdio",
+          "command": [
+            "C:\\nvm4w\\nodejs\\npx.cmd",
+            "-y",
+            "-p",
+            "@modelcontextprotocol/server-filesystem@2026.1.14",
+            "mcp-server-filesystem",
+            "d:\\Dev\\MCP Trust Kit\\.tmp-public-scan-30\\fs-sandbox"
+          ]
+        }
+      }
+    }
+  },
+  "inventory": {
+    "tool_count": 14,
+    "tools": [
+      {
+        "name": "read_file",
+        "description": "Read the complete contents of a file as text. DEPRECATED: Use read_text_file instead.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "tail": {
+              "description": "If provided, returns only the last N lines of the file",
+              "type": "number"
+            },
+            "head": {
+              "description": "If provided, returns only the first N lines of the file",
+              "type": "number"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "metadata": {
+          "title": "Read File (Deprecated)",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      },
+      {
+        "name": "read_text_file",
+        "description": "Read the complete contents of a file from the file system as text. Handles various text encodings and provides detailed error messages if the file cannot be read. Use this tool when you need to examine the contents of a single file. Use the 'head' parameter to read only the first N lines of a file, or the 'tail' parameter to read only the last N lines of a file. Operates on the file as text regardless of extension. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "tail": {
+              "description": "If provided, returns only the last N lines of the file",
+              "type": "number"
+            },
+            "head": {
+              "description": "If provided, returns only the first N lines of the file",
+              "type": "number"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "metadata": {
+          "title": "Read Text File",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      },
+      {
+        "name": "read_media_file",
+        "description": "Read an image or audio file. Returns the base64 encoded data and MIME type. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "metadata": {
+          "title": "Read Media File",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      },
+      {
+        "name": "read_multiple_files",
+        "description": "Read the contents of multiple files simultaneously. This is more efficient than reading files one by one when you need to analyze or compare multiple files. Each file's content is returned with its path as a reference. Failed reads for individual files won't stop the entire operation. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "paths": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Array of file paths to read. Each path must be a string pointing to a valid file within allowed directories."
+            }
+          },
+          "required": [
+            "paths"
+          ]
+        },
+        "metadata": {
+          "title": "Read Multiple Files",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      },
+      {
+        "name": "write_file",
+        "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "content"
+          ]
+        },
+        "metadata": {
+          "title": "Write File",
+          "annotations": {
+            "readOnlyHint": false,
+            "idempotentHint": true,
+            "destructiveHint": true
+          }
+        }
+      },
+      {
+        "name": "edit_file",
+        "description": "Make line-based edits to a text file. Each edit replaces exact line sequences with new content. Returns a git-style diff showing the changes made. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "edits": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "oldText": {
+                    "type": "string",
+                    "description": "Text to search for - must match exactly"
+                  },
+                  "newText": {
+                    "type": "string",
+                    "description": "Text to replace with"
+                  }
+                },
+                "required": [
+                  "oldText",
+                  "newText"
+                ]
+              }
+            },
+            "dryRun": {
+              "default": false,
+              "description": "Preview changes using git-style diff format",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "path",
+            "edits"
+          ]
+        },
+        "metadata": {
+          "title": "Edit File",
+          "annotations": {
+            "readOnlyHint": false,
+            "idempotentHint": false,
+            "destructiveHint": true
+          }
+        }
+      },
+      {
+        "name": "create_directory",
+        "description": "Create a new directory or ensure a directory exists. Can create multiple nested directories in one operation. If the directory already exists, this operation will succeed silently. Perfect for setting up directory structures for projects or ensuring required paths exist. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "metadata": {
+          "title": "Create Directory",
+          "annotations": {
+            "readOnlyHint": false,
+            "idempotentHint": true,
+            "destructiveHint": false
+          }
+        }
+      },
+      {
+        "name": "list_directory",
+        "description": "Get a detailed listing of all files and directories in a specified path. Results clearly distinguish between files and directories with [FILE] and [DIR] prefixes. This tool is essential for understanding directory structure and finding specific files within a directory. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "metadata": {
+          "title": "List Directory",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      },
+      {
+        "name": "list_directory_with_sizes",
+        "description": "Get a detailed listing of all files and directories in a specified path, including sizes. Results clearly distinguish between files and directories with [FILE] and [DIR] prefixes. This tool is useful for understanding directory structure and finding specific files within a directory. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "sortBy": {
+              "default": "name",
+              "description": "Sort entries by name or size",
+              "type": "string",
+              "enum": [
+                "name",
+                "size"
+              ]
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "metadata": {
+          "title": "List Directory with Sizes",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      },
+      {
+        "name": "directory_tree",
+        "description": "Get a recursive tree view of files and directories as a JSON structure. Each entry includes 'name', 'type' (file/directory), and 'children' for directories. Files have no children array, while directories always have a children array (which may be empty). The output is formatted with 2-space indentation for readability. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "excludePatterns": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "metadata": {
+          "title": "Directory Tree",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      },
+      {
+        "name": "move_file",
+        "description": "Move or rename files and directories. Can move files between directories and rename them in a single operation. If the destination exists, the operation will fail. Works across different directories and can be used for simple renaming within the same directory. Both source and destination must be within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "destination": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "destination"
+          ]
+        },
+        "metadata": {
+          "title": "Move File",
+          "annotations": {
+            "readOnlyHint": false,
+            "idempotentHint": false,
+            "destructiveHint": false
+          }
+        }
+      },
+      {
+        "name": "search_files",
+        "description": "Recursively search for files and directories matching a pattern. The patterns should be glob-style patterns that match paths relative to the working directory. Use pattern like '*.ext' to match files in current directory, and '**/*.ext' to match files in all subdirectories. Returns full paths to all matching items. Great for finding files when you don't know their exact location. Only searches within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "pattern": {
+              "type": "string"
+            },
+            "excludePatterns": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "path",
+            "pattern"
+          ]
+        },
+        "metadata": {
+          "title": "Search Files",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      },
+      {
+        "name": "get_file_info",
+        "description": "Retrieve detailed metadata about a file or directory. Returns comprehensive information including size, creation time, last modified time, permissions, and type. This tool is perfect for understanding file characteristics without reading the actual content. Only works within allowed directories.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "metadata": {
+          "title": "Get File Info",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      },
+      {
+        "name": "list_allowed_directories",
+        "description": "Returns the list of directories that this server is allowed to access. Subdirectories within these allowed directories are also accessible. Use this to understand which directories and their nested paths are available before trying to access files.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "List Allowed Directories",
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      }
+    ]
+  },
+  "scorecard": {
+    "total_score": {
+      "value": 40,
+      "max": 100,
+      "penalty_points": 60
+    },
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 40,
+        "max_score": 100,
+        "penalty_points": 60,
+        "finding_count": 3,
+        "check_penalties": {
+          "dangerous_fs_write_tool": 60
+        }
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_counts": {
+      "total": 3,
+      "by_severity": {
+        "info": 0,
+        "warning": 0,
+        "error": 3
+      },
+      "by_bucket": {
+        "security": {
+          "finding_count": 3,
+          "penalty_points": 60
+        }
+      }
+    },
+    "why_this_score": "Score is driven mainly by security findings in file system.",
+    "score_meaning": "Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.",
+    "limitations": [
+      "Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.",
+      "High score means fewer deterministic findings, not a guarantee of safety."
+    ]
+  },
+  "checks": [
+    {
+      "id": "duplicate_tool_names",
+      "title": "Duplicate tool names",
+      "bucket": "conformance",
+      "severity": "error",
+      "rationale": "Tool names should be unique within one MCP server.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 20,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "missing_tool_description",
+      "title": "Missing tool description",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Each tool should include a non-empty description.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "overly_generic_tool_name",
+      "title": "Overly generic tool name",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool names should communicate behavior clearly.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "vague_tool_description",
+      "title": "Vague tool description",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool descriptions should clearly explain what the tool does.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "missing_schema_type",
+      "title": "Missing schema type",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should declare a top-level type.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "schema_allows_arbitrary_properties",
+      "title": "Schema allows arbitrary properties",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should not allow arbitrary top-level properties.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "weak_input_schema",
+      "title": "Weak input schema",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool input schemas should constrain free-form payloads clearly.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "missing_required_for_critical_fields",
+      "title": "Missing required critical fields",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Critical schema fields such as path, command, or URL should be required.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "dangerous_exec_tool",
+      "title": "Dangerous execution tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that execute host shell commands are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution"
+      ]
+    },
+    {
+      "id": "dangerous_shell_download_exec",
+      "title": "Dangerous download-and-execute tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that combine remote download with shell execution are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution",
+        "network"
+      ]
+    },
+    {
+      "id": "dangerous_fs_write_tool",
+      "title": "Dangerous filesystem write tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that write files on disk are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem"
+      ]
+    },
+    {
+      "id": "dangerous_fs_delete_tool",
+      "title": "Dangerous filesystem delete tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that delete files or directories are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem",
+        "destructive"
+      ]
+    },
+    {
+      "id": "dangerous_http_request_tool",
+      "title": "Dangerous HTTP request tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network",
+        "http"
+      ]
+    },
+    {
+      "id": "dangerous_network_tool",
+      "title": "Dangerous network tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that expose generic network access are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network"
+      ]
+    },
+    {
+      "id": "write_tool_without_scope_hint",
+      "title": "Write tool without scope hint",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Filesystem mutation tools should document scope constraints clearly.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "capability",
+        "filesystem",
+        "scope"
+      ]
+    },
+    {
+      "id": "tool_description_mentions_destructive_access",
+      "title": "Description mentions destructive access",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Tool descriptions should make destructive broad-scope access easy to spot.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description",
+        "destructive"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "check_id": "dangerous_fs_write_tool",
+      "title": "Dangerous filesystem write tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that write files on disk are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "tool_name": "write_file",
+      "message": "Tool 'write_file' appears to provide filesystem write access.",
+      "evidence": [
+        "write_markers=['write']",
+        "file_markers=['file']",
+        "path_keys=['path']",
+        "content_keys=['content']"
+      ],
+      "score_impact": 20,
+      "metadata": {}
+    },
+    {
+      "check_id": "dangerous_fs_write_tool",
+      "title": "Dangerous filesystem write tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that write files on disk are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "tool_name": "edit_file",
+      "message": "Tool 'edit_file' appears to provide filesystem write access.",
+      "evidence": [
+        "write_markers=['edit']",
+        "file_markers=['file']",
+        "path_keys=['path']"
+      ],
+      "score_impact": 20,
+      "metadata": {}
+    },
+    {
+      "check_id": "dangerous_fs_write_tool",
+      "title": "Dangerous filesystem write tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that write files on disk are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "tool_name": "create_directory",
+      "message": "Tool 'create_directory' appears to provide filesystem write access.",
+      "evidence": [
+        "write_markers=['create']",
+        "file_markers=['path', 'directory']",
+        "path_keys=['path']"
+      ],
+      "score_impact": 20,
+      "metadata": {}
+    }
+  ],
+  "grouped_findings": {
+    "by_bucket": [
+      {
+        "bucket": "security",
+        "label": "security",
+        "finding_count": 3,
+        "penalty_points": 60,
+        "findings": [
+          {
+            "id": "dangerous_fs_write_tool",
+            "title": "Dangerous filesystem write tool",
+            "severity": "error",
+            "bucket": "security",
+            "risk_category": "file_system",
+            "tool_name": "create_directory",
+            "rationale": "Tools that write files on disk are high risk.",
+            "message": "Tool 'create_directory' appears to provide filesystem write access.",
+            "score_impact": 20
+          },
+          {
+            "id": "dangerous_fs_write_tool",
+            "title": "Dangerous filesystem write tool",
+            "severity": "error",
+            "bucket": "security",
+            "risk_category": "file_system",
+            "tool_name": "edit_file",
+            "rationale": "Tools that write files on disk are high risk.",
+            "message": "Tool 'edit_file' appears to provide filesystem write access.",
+            "score_impact": 20
+          },
+          {
+            "id": "dangerous_fs_write_tool",
+            "title": "Dangerous filesystem write tool",
+            "severity": "error",
+            "bucket": "security",
+            "risk_category": "file_system",
+            "tool_name": "write_file",
+            "rationale": "Tools that write files on disk are high risk.",
+            "message": "Tool 'write_file' appears to provide filesystem write access.",
+            "score_impact": 20
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {}
+}

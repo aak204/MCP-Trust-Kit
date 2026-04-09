@@ -1,0 +1,403 @@
+{
+  "schema": {
+    "id": "mcp-scorecard-report",
+    "version": "1.0"
+  },
+  "generator": {
+    "product_name": "MCP Scorecard",
+    "tool_name": "mcp-scorecard",
+    "package_name": "mcp-scorecard",
+    "package_version": "1.0.0"
+  },
+  "scan": {
+    "timestamp": "2026-04-09T16:45:13.468729+00:00",
+    "target": {
+      "raw": "stdio:[\"C:\\\\nvm4w\\\\nodejs\\\\npx.cmd\",\"-y\",\"-p\",\"@wildcard-ai/deepcontext@0.1.15\",\"deepcontext\"]",
+      "transport": "stdio",
+      "description": "Local MCP server launched over stdio.",
+      "server_name": "intelligent-context-mcp",
+      "server_version": "2.0.0",
+      "protocol_version": "2024-11-05",
+      "metadata": {
+        "mcp": {
+          "protocolVersion": "2024-11-05",
+          "capabilities": {
+            "tools": {},
+            "resources": {}
+          },
+          "transport": "stdio",
+          "command": [
+            "C:\\nvm4w\\nodejs\\npx.cmd",
+            "-y",
+            "-p",
+            "@wildcard-ai/deepcontext@0.1.15",
+            "deepcontext"
+          ]
+        }
+      }
+    }
+  },
+  "inventory": {
+    "tool_count": 4,
+    "tools": [
+      {
+        "name": "index_codebase",
+        "description": "<tool>\n  <purpose>Prepares a codebase for intelligent search by creating a searchable index</purpose>\n\n  <when_to_use>\n    <scenario>Call this first before searching any new codebase</scenario>\n    <scenario>Required prerequisite for search_codebase</scenario>\n  </when_to_use>\n\n  <parameters>\n    <parameter name=\"codebase_path\" required=\"true\">\n      <type>string</type>\n      <description>ABSOLUTE path to the directory containing source code files</description>\n      <examples>\n        <valid>/Users/name/project</valid>\n        <valid>/home/user/code/repo</valid>\n        <invalid>.</invalid>\n        <invalid>../project</invalid>\n        <invalid>relative/path</invalid>\n      </examples>\n      <validation>Must be absolute path starting with / (Unix) or C:\\ (Windows)</validation>\n    </parameter>\n\n    <parameter name=\"force_reindex\" required=\"false\">\n      <type>boolean</type>\n      <description>Force complete reindexing even if already indexed</description>\n      <default>false</default>\n      <when_to_use>Code has changed significantly or search results seem outdated</when_to_use>\n    </parameter>\n  </parameters>\n</tool>",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "codebase_path": {
+              "type": "string"
+            },
+            "force_reindex": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "codebase_path"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "search_codebase",
+        "description": "<tool>\n  <purpose>Finds relevant code in an indexed codebase using natural language or keyword queries</purpose>\n\n  <when_to_use>\n    <scenario>Find specific functions, classes, or code patterns</scenario>\n    <scenario>Get context before making changes to understand dependencies</scenario>\n    <scenario>Explore how existing systems work</scenario>\n    <scenario>Locate examples of API usage or patterns</scenario>\n  </when_to_use>\n\n  <parameters>\n    <parameter name=\"query\" required=\"true\">\n      <type>string</type>\n      <description>Natural language or keyword search query describing what code to find</description>\n    </parameter>\n\n    <parameter name=\"codebase_path\" required=\"true\">\n      <type>string</type>\n      <description>ABSOLUTE path to the codebase directory to search</description>\n      <examples>\n        <valid>/Users/name/project</valid>\n        <valid>/home/user/code/repo</valid>\n        <invalid>.</invalid>\n        <invalid>../project</invalid>\n        <invalid>relative/path</invalid>\n      </examples>\n      <validation>Must be absolute path starting with / (Unix) or C:\\ (Windows)</validation>\n    </parameter>\n\n    <parameter name=\"max_results\" required=\"false\">\n      <type>number</type>\n      <description>Maximum number of code chunks to return</description>\n      <default>5</default>\n      <best_practice>Keep at default 5 for focused results. Use multiple targeted searches rather than increasing this limit</best_practice>\n    </parameter>\n  </parameters>\n\n  <strategy>\n    <guideline>Use specific technical terms: \"authentication middleware\", \"database connection\", \"error handler\"</guideline>\n    <guideline>Focus on implementation: \"user login function\" rather than \"user management system\"</guideline>\n    <guideline>Include file types when relevant: \"SQL migration\", \"React component\", \"API endpoint\"</guideline>\n  </strategy>\n\n  <workflow>\n    <step>Search discovers relevant files and entry points, use imports and exports to find related files</step>\n    <step>Use Read tool to explore discovered files in detail for complete implementation</step>\n    <step>Use Grep tool for precise pattern matching of specific symbols or exact text</step>\n    <step>Follow imports/exports from results to guide next searches</step>\n    <step>Prefer multiple focused searches with 5 results over single large searches</step>\n    <step>Search provides discovery, not complete solutions</step>\n  </workflow>\n\n  <result_interpretation>\n    <point>Results ranked by semantic relevance, not code importance</point>\n    <point>Implementation code often appears in results 2-5, not just #1</point>\n    <point>Look for actual code files (.ts, .js, .sql) over documentation (.md, .txt)</point>\n  </result_interpretation>\n\n  <limitations>\n    <limitation>\n      <description>May miss foundational type definitions</description>\n      <solution>Use Grep for \"interface PluginName\"</solution>\n    </limitation>\n    <limitation>\n      <description>Shows implementations, not core contracts</description>\n      <solution>Follow up with Read for full context</solution>\n    </limitation>\n    <limitation>\n      <description>Semantic chunks may lack architectural hierarchy</description>\n      <solution>Manual file exploration needed</solution>\n    </limitation>\n    <limitation>\n      <description>Excludes filtered content: test files, generated code, config files, minified files, large data files</description>\n      <solution>Use Grep tool to search test files (*.test.*, *.spec.*, __tests__, /tests/), config files, or generated content</solution>\n    </limitation>\n    <limitation>\n      <description>For precise symbol search</description>\n      <solution>Use Grep tool for exact matches</solution>\n    </limitation>\n  </limitations>\n\n  <returns>Code chunks with file paths, line numbers, relevance scores, symbol information, imports, and exports</returns>\n  <prerequisites>Codebase must be indexed first with index_codebase</prerequisites>\n</tool>",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "codebase_path": {
+              "type": "string"
+            },
+            "max_results": {
+              "type": "number",
+              "default": 5
+            }
+          },
+          "required": [
+            "query",
+            "codebase_path"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "name": "get_indexing_status",
+        "description": "<tool>\n  <purpose>Check if codebases are indexed and get their status information</purpose>\n\n  <enhanced_features>\n    <feature>Shows completion statistics for finished indexing (success rates, processing time, performance metrics)</feature>\n    <feature>Displays batch processing details (successful/skipped batches)</feature>\n    <feature>References log files for detailed debugging</feature>\n  </enhanced_features>\n\n  <when_to_use>\n    <scenario>Before indexing to check if already done</scenario>\n    <scenario>After indexing to see completion statistics and success rates</scenario>\n    <scenario>Debug why search returned no results</scenario>\n    <scenario>Confirm indexing completed successfully</scenario>\n    <scenario>Get overview of all indexed codebases</scenario>\n  </when_to_use>\n\n  <parameters>\n    <parameter name=\"codebase_path\" required=\"false\">\n      <type>string</type>\n      <description>ABSOLUTE path to specific codebase to check</description>\n      <examples>\n        <valid>/Users/name/project</valid>\n        <valid>/home/user/code/repo</valid>\n        <invalid>.</invalid>\n        <invalid>../project</invalid>\n        <invalid>relative/path</invalid>\n      </examples>\n      <validation>Must be absolute path starting with / (Unix) or C:\\ (Windows)</validation>\n      <optional_behavior>Omit to get status of all indexed codebases</optional_behavior>\n    </parameter>\n  </parameters>\n\n  <returns>Enhanced indexing status with completion statistics when available</returns>\n</tool>",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "codebase_path": {
+              "type": "string"
+            }
+          }
+        },
+        "metadata": {}
+      },
+      {
+        "name": "clear_index",
+        "description": "<tool>\n  <purpose>Permanently removes all indexed data for a codebase</purpose>\n\n  <when_to_use>\n    <scenario>Clear stale data before reindexing after major code changes</scenario>\n    <scenario>Remove old indexed codebases no longer needed</scenario>\n    <scenario>Fix corrupted index causing search issues</scenario>\n  </when_to_use>\n\n  <parameters>\n    <parameter name=\"codebase_path\" required=\"false\">\n      <type>string</type>\n      <description>ABSOLUTE path to the codebase to clear</description>\n      <examples>\n        <valid>/Users/name/project</valid>\n        <valid>/home/user/code/repo</valid>\n        <invalid>.</invalid>\n        <invalid>../project</invalid>\n        <invalid>relative/path</invalid>\n      </examples>\n      <validation>Must be absolute path starting with / (Unix) or C:\\ (Windows)</validation>\n      <optional_behavior>Omit to clear ALL indexed codebases (use with caution)</optional_behavior>\n    </parameter>\n  </parameters>\n\n  <warnings>\n    <warning>Destructive operation. All search capabilities lost until reindexing</warning>\n  </warnings>\n</tool>",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "codebase_path": {
+              "type": "string"
+            }
+          }
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  "scorecard": {
+    "total_score": {
+      "value": 100,
+      "max": 100,
+      "penalty_points": 0
+    },
+    "category_scores": {
+      "conformance": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "security": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_counts": {
+      "total": 0,
+      "by_severity": {
+        "info": 0,
+        "warning": 0,
+        "error": 0
+      },
+      "by_bucket": {}
+    },
+    "why_this_score": "No deterministic issues were detected in the current server surface.",
+    "score_meaning": "Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.",
+    "limitations": [
+      "Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.",
+      "High score means fewer deterministic findings, not a guarantee of safety."
+    ]
+  },
+  "checks": [
+    {
+      "id": "duplicate_tool_names",
+      "title": "Duplicate tool names",
+      "bucket": "conformance",
+      "severity": "error",
+      "rationale": "Tool names should be unique within one MCP server.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 20,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "missing_tool_description",
+      "title": "Missing tool description",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Each tool should include a non-empty description.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "overly_generic_tool_name",
+      "title": "Overly generic tool name",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool names should communicate behavior clearly.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "vague_tool_description",
+      "title": "Vague tool description",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool descriptions should clearly explain what the tool does.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "missing_schema_type",
+      "title": "Missing schema type",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should declare a top-level type.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "schema_allows_arbitrary_properties",
+      "title": "Schema allows arbitrary properties",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should not allow arbitrary top-level properties.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "weak_input_schema",
+      "title": "Weak input schema",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool input schemas should constrain free-form payloads clearly.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "missing_required_for_critical_fields",
+      "title": "Missing required critical fields",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Critical schema fields such as path, command, or URL should be required.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "dangerous_exec_tool",
+      "title": "Dangerous execution tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that execute host shell commands are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution"
+      ]
+    },
+    {
+      "id": "dangerous_shell_download_exec",
+      "title": "Dangerous download-and-execute tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that combine remote download with shell execution are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution",
+        "network"
+      ]
+    },
+    {
+      "id": "dangerous_fs_write_tool",
+      "title": "Dangerous filesystem write tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that write files on disk are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem"
+      ]
+    },
+    {
+      "id": "dangerous_fs_delete_tool",
+      "title": "Dangerous filesystem delete tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that delete files or directories are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem",
+        "destructive"
+      ]
+    },
+    {
+      "id": "dangerous_http_request_tool",
+      "title": "Dangerous HTTP request tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network",
+        "http"
+      ]
+    },
+    {
+      "id": "dangerous_network_tool",
+      "title": "Dangerous network tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that expose generic network access are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network"
+      ]
+    },
+    {
+      "id": "write_tool_without_scope_hint",
+      "title": "Write tool without scope hint",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Filesystem mutation tools should document scope constraints clearly.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "capability",
+        "filesystem",
+        "scope"
+      ]
+    },
+    {
+      "id": "tool_description_mentions_destructive_access",
+      "title": "Description mentions destructive access",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Tool descriptions should make destructive broad-scope access easy to spot.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description",
+        "destructive"
+      ]
+    }
+  ],
+  "findings": [],
+  "grouped_findings": {
+    "by_bucket": []
+  },
+  "metadata": {}
+}

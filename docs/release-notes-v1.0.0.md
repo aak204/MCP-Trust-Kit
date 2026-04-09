@@ -51,7 +51,7 @@ contract quality, naming consistency, and release surface.
 
 ## Compatibility Notes
 
-- the repository and action reference remain `aak204/MCP-Trust-Kit` for this release line
+- the repository and action reference are now `aak204/MCP-Scorecard`
 - `mcp-scorecard` is the preferred CLI
 - `mcp-trust` remains available as a compatibility alias
 - the Python module remains `mcp_trust`
@@ -78,7 +78,7 @@ GitHub Actions:
 ```yaml
 - name: Run MCP Scorecard
   id: scorecard
-  uses: aak204/MCP-Trust-Kit@v1.0.0
+  uses: aak204/MCP-Scorecard@v1.0.0
   with:
     cmd: python path/to/your/server.py
     min-score: "80"

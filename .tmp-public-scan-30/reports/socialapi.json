@@ -1,0 +1,1112 @@
+{
+  "schema": {
+    "id": "mcp-scorecard-report",
+    "version": "1.0"
+  },
+  "generator": {
+    "product_name": "MCP Scorecard",
+    "tool_name": "mcp-scorecard",
+    "package_name": "mcp-scorecard",
+    "package_version": "1.0.0"
+  },
+  "scan": {
+    "timestamp": "2026-04-09T16:46:14.001049+00:00",
+    "target": {
+      "raw": "stdio:[\"C:\\\\nvm4w\\\\nodejs\\\\npx.cmd\",\"-y\",\"-p\",\"mcp-socialapi@1.0.1\",\"mcp-socialapi\"]",
+      "transport": "stdio",
+      "description": "Local MCP server launched over stdio.",
+      "server_name": "socialapi",
+      "server_version": "1.0.0",
+      "protocol_version": "2025-11-25",
+      "metadata": {
+        "mcp": {
+          "protocolVersion": "2025-11-25",
+          "capabilities": {
+            "tools": {
+              "listChanged": true
+            }
+          },
+          "transport": "stdio",
+          "command": [
+            "C:\\nvm4w\\nodejs\\npx.cmd",
+            "-y",
+            "-p",
+            "mcp-socialapi@1.0.1",
+            "mcp-socialapi"
+          ]
+        }
+      }
+    }
+  },
+  "inventory": {
+    "tool_count": 25,
+    "tools": [
+      {
+        "name": "social_api_list_accounts",
+        "description": "List all social media accounts connected to your SocialAPI workspace. Returns platform, account name, and account ID for each.",
+        "input_schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "List Connected Accounts"
+        }
+      },
+      {
+        "name": "social_api_connect_account",
+        "description": "Initiate the OAuth flow to connect a new social media account. Returns an authorization URL the user must visit to grant access.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "platform": {
+              "type": "string",
+              "description": "Platform to connect (e.g. instagram, facebook, tiktok, youtube, x, linkedin, google, trustpilot)"
+            },
+            "metadata": {
+              "type": "object",
+              "additionalProperties": {},
+              "description": "Optional platform-specific metadata for the connection"
+            }
+          },
+          "required": [
+            "platform"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Connect a Social Account"
+        }
+      },
+      {
+        "name": "social_api_exchange_oauth",
+        "description": "Complete the OAuth flow by exchanging an authorization code for account credentials. Called after the user grants access via the auth URL.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "platform": {
+              "type": "string",
+              "description": "Platform the OAuth code is for"
+            },
+            "code": {
+              "type": "string",
+              "description": "The OAuth authorization code"
+            },
+            "metadata": {
+              "type": "object",
+              "additionalProperties": {},
+              "description": "Optional platform-specific metadata"
+            }
+          },
+          "required": [
+            "platform",
+            "code"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Exchange OAuth Code"
+        }
+      },
+      {
+        "name": "social_api_get_posts",
+        "description": "Retrieve posts/media from a connected social media account. Supports pagination and filtering by date.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "since": {
+              "type": "string",
+              "description": "ISO 8601 date \u2014 only return posts after this time"
+            },
+            "limit": {
+              "type": "string",
+              "description": "Maximum number of posts to return"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor from a previous response"
+            }
+          },
+          "required": [
+            "account_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Posts"
+        }
+      },
+      {
+        "name": "social_api_get_comments",
+        "description": "Retrieve comments on a specific post from a connected social media account. Supports pagination and date filtering.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "post_id": {
+              "type": "string",
+              "description": "The post ID to get comments for"
+            },
+            "since": {
+              "type": "string",
+              "description": "ISO 8601 date \u2014 only return comments after this time"
+            },
+            "limit": {
+              "type": "string",
+              "description": "Maximum number of comments to return"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor from a previous response"
+            }
+          },
+          "required": [
+            "account_id",
+            "post_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Comments"
+        }
+      },
+      {
+        "name": "social_api_get_comment_replies",
+        "description": "Retrieve replies to a specific comment. The interaction_id must start with socapi_cmt_.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "interaction_id": {
+              "type": "string",
+              "description": "The comment interaction ID (must start with socapi_cmt_)"
+            },
+            "since": {
+              "type": "string",
+              "description": "ISO 8601 date \u2014 only return replies after this time"
+            },
+            "limit": {
+              "type": "string",
+              "description": "Maximum number of replies to return"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor from a previous response"
+            }
+          },
+          "required": [
+            "account_id",
+            "interaction_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Comment Replies"
+        }
+      },
+      {
+        "name": "social_api_reply_to_interaction",
+        "description": "Reply to a comment or review. The interaction_id must start with socapi_cmt_ (comment) or socapi_rev_ (review). Costs 2 credits.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "interaction_id": {
+              "type": "string",
+              "description": "The interaction ID to reply to (socapi_cmt_ for comments, socapi_rev_ for reviews)"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 2200,
+              "description": "The reply text (max 2200 characters)"
+            },
+            "private": {
+              "type": "boolean",
+              "description": "Whether the reply should be private/direct"
+            }
+          },
+          "required": [
+            "account_id",
+            "interaction_id",
+            "text"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Reply to Interaction"
+        }
+      },
+      {
+        "name": "social_api_moderate_comment",
+        "description": "Moderate a comment by hiding, unhiding, or deleting it. The interaction_id must start with socapi_cmt_.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "interaction_id": {
+              "type": "string",
+              "description": "The comment interaction ID to moderate (must start with socapi_cmt_)"
+            },
+            "action": {
+              "type": "string",
+              "enum": [
+                "hide",
+                "unhide",
+                "delete"
+              ],
+              "description": "The moderation action to take"
+            }
+          },
+          "required": [
+            "account_id",
+            "interaction_id",
+            "action"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Moderate Comment"
+        }
+      },
+      {
+        "name": "social_api_toggle_post_comments",
+        "description": "Enable or disable comments on a specific post.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "post_id": {
+              "type": "string",
+              "description": "The post ID to toggle comments for"
+            },
+            "enabled": {
+              "type": "boolean",
+              "description": "True to enable comments, false to disable"
+            }
+          },
+          "required": [
+            "account_id",
+            "post_id",
+            "enabled"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Toggle Post Comments"
+        }
+      },
+      {
+        "name": "social_api_get_dms",
+        "description": "Retrieve direct message conversations from a connected social media account. Supports pagination and date filtering.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "since": {
+              "type": "string",
+              "description": "ISO 8601 date \u2014 only return DMs after this time"
+            },
+            "limit": {
+              "type": "string",
+              "description": "Maximum number of DMs to return"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor from a previous response"
+            }
+          },
+          "required": [
+            "account_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Direct Messages"
+        }
+      },
+      {
+        "name": "social_api_get_dm_thread",
+        "description": "Retrieve a specific DM thread/conversation with a user.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "user_id": {
+              "type": "string",
+              "description": "The user ID to get the DM thread with"
+            }
+          },
+          "required": [
+            "account_id",
+            "user_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get DM Thread"
+        }
+      },
+      {
+        "name": "social_api_send_dm",
+        "description": "Send a direct message in an existing DM thread. Costs 2 credits.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "thread_id": {
+              "type": "string",
+              "description": "The DM thread ID to send to"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 1000,
+              "description": "The message text (max 1000 characters)"
+            }
+          },
+          "required": [
+            "account_id",
+            "thread_id",
+            "text"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Send Direct Message"
+        }
+      },
+      {
+        "name": "social_api_get_reviews",
+        "description": "Retrieve reviews for a connected account (e.g. Google Reviews, Trustpilot). Supports pagination and date filtering.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "since": {
+              "type": "string",
+              "description": "ISO 8601 date \u2014 only return reviews after this time"
+            },
+            "limit": {
+              "type": "string",
+              "description": "Maximum number of reviews to return"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor from a previous response"
+            }
+          },
+          "required": [
+            "account_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Reviews"
+        }
+      },
+      {
+        "name": "social_api_get_mentions",
+        "description": "Retrieve mentions of a connected account across the platform. Supports pagination and date filtering.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            },
+            "since": {
+              "type": "string",
+              "description": "ISO 8601 date \u2014 only return mentions after this time"
+            },
+            "limit": {
+              "type": "string",
+              "description": "Maximum number of mentions to return"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor from a previous response"
+            }
+          },
+          "required": [
+            "account_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Mentions"
+        }
+      },
+      {
+        "name": "social_api_get_usage",
+        "description": "Get your current API usage statistics including credits used, credits limit, and billing period.",
+        "input_schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "Get Usage"
+        }
+      },
+      {
+        "name": "social_api_get_account_limits",
+        "description": "Get platform-specific rate limits and usage limits for a connected account.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string",
+              "description": "The connected account ID"
+            }
+          },
+          "required": [
+            "account_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Get Account Limits"
+        }
+      },
+      {
+        "name": "social_api_list_keys",
+        "description": "List all API keys in your workspace. Returns key hints (first 5 chars), names, and creation dates.",
+        "input_schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "List API Keys"
+        }
+      },
+      {
+        "name": "social_api_create_key",
+        "description": "Create a new API key. The full key is only shown once in the response \u2014 store it securely.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "A descriptive name for the API key"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Create API Key"
+        }
+      },
+      {
+        "name": "social_api_revoke_key",
+        "description": "Permanently revoke an API key. This cannot be undone.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "key_id": {
+              "type": "string",
+              "description": "The ID of the API key to revoke"
+            }
+          },
+          "required": [
+            "key_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Revoke API Key"
+        }
+      },
+      {
+        "name": "social_api_list_webhooks",
+        "description": "List all configured webhook endpoints for your workspace.",
+        "input_schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "List Webhooks"
+        }
+      },
+      {
+        "name": "social_api_create_webhook",
+        "description": "Create a new webhook endpoint to receive event notifications.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The URL to deliver webhook events to"
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of event types to subscribe to (e.g. comment.created, dm.received)"
+            }
+          },
+          "required": [
+            "url",
+            "events"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Create Webhook"
+        }
+      },
+      {
+        "name": "social_api_update_webhook",
+        "description": "Update an existing webhook endpoint's URL, events, or active status.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "webhook_id": {
+              "type": "string",
+              "description": "The webhook ID to update"
+            },
+            "url": {
+              "type": "string",
+              "description": "New URL for the webhook"
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "New list of event types to subscribe to"
+            },
+            "is_active": {
+              "type": "boolean",
+              "description": "Whether the webhook is active"
+            }
+          },
+          "required": [
+            "webhook_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Update Webhook"
+        }
+      },
+      {
+        "name": "social_api_delete_webhook",
+        "description": "Delete a webhook endpoint. It will no longer receive event notifications.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "webhook_id": {
+              "type": "string",
+              "description": "The webhook ID to delete"
+            }
+          },
+          "required": [
+            "webhook_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Delete Webhook"
+        }
+      },
+      {
+        "name": "social_api_get_me",
+        "description": "Get information about the currently authenticated user, including plan tier and billing period.",
+        "input_schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "metadata": {
+          "title": "Get Current User"
+        }
+      },
+      {
+        "name": "social_api_send_feedback",
+        "description": "Send feedback to the SocialAPI team \u2014 bug reports, feature requests, or general comments.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "bug",
+                "feature_request",
+                "general"
+              ],
+              "description": "The type of feedback"
+            },
+            "message": {
+              "type": "string",
+              "description": "The feedback message"
+            }
+          },
+          "required": [
+            "type",
+            "message"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "metadata": {
+          "title": "Send Feedback"
+        }
+      }
+    ]
+  },
+  "scorecard": {
+    "total_score": {
+      "value": 50,
+      "max": 100,
+      "penalty_points": 50
+    },
+    "category_scores": {
+      "conformance": {
+        "score": 90,
+        "max_score": 100,
+        "penalty_points": 10,
+        "finding_count": 1,
+        "check_penalties": {
+          "missing_required_for_critical_fields": 10
+        }
+      },
+      "security": {
+        "score": 60,
+        "max_score": 100,
+        "penalty_points": 40,
+        "finding_count": 2,
+        "check_penalties": {
+          "dangerous_http_request_tool": 40
+        }
+      },
+      "ergonomics": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      },
+      "metadata": {
+        "score": 100,
+        "max_score": 100,
+        "penalty_points": 0,
+        "finding_count": 0,
+        "check_penalties": {}
+      }
+    },
+    "finding_counts": {
+      "total": 3,
+      "by_severity": {
+        "info": 0,
+        "warning": 1,
+        "error": 2
+      },
+      "by_bucket": {
+        "security": {
+          "finding_count": 2,
+          "penalty_points": 40
+        },
+        "conformance": {
+          "finding_count": 1,
+          "penalty_points": 10
+        }
+      }
+    },
+    "why_this_score": "Score is driven mainly by security findings in network and conformance findings.",
+    "score_meaning": "Deterministic CI-first quality scorecard based on conformance, security-relevant capabilities, ergonomics, and metadata hygiene.",
+    "limitations": [
+      "Low score means more deterministic findings or higher-risk exposed surface, not malicious intent.",
+      "High score means fewer deterministic findings, not a guarantee of safety."
+    ]
+  },
+  "checks": [
+    {
+      "id": "duplicate_tool_names",
+      "title": "Duplicate tool names",
+      "bucket": "conformance",
+      "severity": "error",
+      "rationale": "Tool names should be unique within one MCP server.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 20,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "missing_tool_description",
+      "title": "Missing tool description",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Each tool should include a non-empty description.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "overly_generic_tool_name",
+      "title": "Overly generic tool name",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool names should communicate behavior clearly.",
+      "category": "tool-identity",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "identity"
+      ]
+    },
+    {
+      "id": "vague_tool_description",
+      "title": "Vague tool description",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool descriptions should clearly explain what the tool does.",
+      "category": "tool-description",
+      "risk_category": "metadata_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description"
+      ]
+    },
+    {
+      "id": "missing_schema_type",
+      "title": "Missing schema type",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should declare a top-level type.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "schema_allows_arbitrary_properties",
+      "title": "Schema allows arbitrary properties",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Tool input schemas should not allow arbitrary top-level properties.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "weak_input_schema",
+      "title": "Weak input schema",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Tool input schemas should constrain free-form payloads clearly.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "missing_required_for_critical_fields",
+      "title": "Missing required critical fields",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Critical schema fields such as path, command, or URL should be required.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "score_impact": 10,
+      "tags": [
+        "schema",
+        "validation"
+      ]
+    },
+    {
+      "id": "dangerous_exec_tool",
+      "title": "Dangerous execution tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that execute host shell commands are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution"
+      ]
+    },
+    {
+      "id": "dangerous_shell_download_exec",
+      "title": "Dangerous download-and-execute tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that combine remote download with shell execution are high risk.",
+      "category": "capability",
+      "risk_category": "command_execution",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "execution",
+        "network"
+      ]
+    },
+    {
+      "id": "dangerous_fs_write_tool",
+      "title": "Dangerous filesystem write tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that write files on disk are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem"
+      ]
+    },
+    {
+      "id": "dangerous_fs_delete_tool",
+      "title": "Dangerous filesystem delete tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that delete files or directories are high risk.",
+      "category": "capability",
+      "risk_category": "file_system",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "filesystem",
+        "destructive"
+      ]
+    },
+    {
+      "id": "dangerous_http_request_tool",
+      "title": "Dangerous HTTP request tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network",
+        "http"
+      ]
+    },
+    {
+      "id": "dangerous_network_tool",
+      "title": "Dangerous network tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that expose generic network access are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "score_impact": 20,
+      "tags": [
+        "capability",
+        "network"
+      ]
+    },
+    {
+      "id": "write_tool_without_scope_hint",
+      "title": "Write tool without scope hint",
+      "bucket": "ergonomics",
+      "severity": "warning",
+      "rationale": "Filesystem mutation tools should document scope constraints clearly.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "capability",
+        "filesystem",
+        "scope"
+      ]
+    },
+    {
+      "id": "tool_description_mentions_destructive_access",
+      "title": "Description mentions destructive access",
+      "bucket": "metadata",
+      "severity": "warning",
+      "rationale": "Tool descriptions should make destructive broad-scope access easy to spot.",
+      "category": "capability",
+      "risk_category": "external_side_effects",
+      "score_impact": 10,
+      "tags": [
+        "tools",
+        "description",
+        "destructive"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "check_id": "missing_required_for_critical_fields",
+      "title": "Missing required critical fields",
+      "bucket": "conformance",
+      "severity": "warning",
+      "rationale": "Critical schema fields such as path, command, or URL should be required.",
+      "category": "input-schema",
+      "risk_category": "schema_hygiene",
+      "tool_name": "social_api_update_webhook",
+      "message": "Tool 'social_api_update_webhook' defines critical input fields that are not required.",
+      "evidence": [
+        "critical_fields=['url']",
+        "required_fields=['webhook_id']"
+      ],
+      "score_impact": 10,
+      "metadata": {}
+    },
+    {
+      "check_id": "dangerous_http_request_tool",
+      "title": "Dangerous HTTP request tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "tool_name": "social_api_create_webhook",
+      "message": "Tool 'social_api_create_webhook' appears to expose outbound HTTP request capability.",
+      "evidence": [
+        "url_keys=['url']",
+        "name_markers=['webhook']",
+        "description_markers=['webhook']"
+      ],
+      "score_impact": 20,
+      "metadata": {}
+    },
+    {
+      "check_id": "dangerous_http_request_tool",
+      "title": "Dangerous HTTP request tool",
+      "bucket": "security",
+      "severity": "error",
+      "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+      "category": "capability",
+      "risk_category": "network",
+      "tool_name": "social_api_update_webhook",
+      "message": "Tool 'social_api_update_webhook' appears to expose outbound HTTP request capability.",
+      "evidence": [
+        "url_keys=['url']",
+        "name_markers=['webhook']",
+        "description_markers=['webhook']"
+      ],
+      "score_impact": 20,
+      "metadata": {}
+    }
+  ],
+  "grouped_findings": {
+    "by_bucket": [
+      {
+        "bucket": "security",
+        "label": "security",
+        "finding_count": 2,
+        "penalty_points": 40,
+        "findings": [
+          {
+            "id": "dangerous_http_request_tool",
+            "title": "Dangerous HTTP request tool",
+            "severity": "error",
+            "bucket": "security",
+            "risk_category": "network",
+            "tool_name": "social_api_create_webhook",
+            "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+            "message": "Tool 'social_api_create_webhook' appears to expose outbound HTTP request capability.",
+            "score_impact": 20
+          },
+          {
+            "id": "dangerous_http_request_tool",
+            "title": "Dangerous HTTP request tool",
+            "severity": "error",
+            "bucket": "security",
+            "risk_category": "network",
+            "tool_name": "social_api_update_webhook",
+            "rationale": "Tools that issue arbitrary HTTP requests are high risk.",
+            "message": "Tool 'social_api_update_webhook' appears to expose outbound HTTP request capability.",
+            "score_impact": 20
+          }
+        ]
+      },
+      {
+        "bucket": "conformance",
+        "label": "conformance",
+        "finding_count": 1,
+        "penalty_points": 10,
+        "findings": [
+          {
+            "id": "missing_required_for_critical_fields",
+            "title": "Missing required critical fields",
+            "severity": "warning",
+            "bucket": "conformance",
+            "risk_category": "schema_hygiene",
+            "tool_name": "social_api_update_webhook",
+            "rationale": "Critical schema fields such as path, command, or URL should be required.",
+            "message": "Tool 'social_api_update_webhook' defines critical input fields that are not required.",
+            "score_impact": 10
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {}
+}
