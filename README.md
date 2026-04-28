@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/aak204-mcp-scorecard-badge.png)](https://mseep.ai/app/aak204-mcp-scorecard)
+
 # MCP Scorecard
 
 [![Build Status](https://github.com/aak204/MCP-Scorecard/actions/workflows/ci.yml/badge.svg)](https://github.com/aak204/MCP-Scorecard/actions/workflows/ci.yml)
